@@ -1,0 +1,12 @@
+@use '@/shared/styles' as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  padding: $space-sm;
+  border: 1px solid var(--color-border);
+  border-radius: $radius-card;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}

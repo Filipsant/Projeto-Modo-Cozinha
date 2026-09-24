@@ -1,0 +1,81 @@
+@use '@/shared/styles' as *;
+
+.pagina {
+  display: grid;
+  gap: $space-md;
+}
+
+.hero {
+  gap: $space-md;
+  padding: $space-lg;
+}
+
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-xs;
+  align-self: flex-start;
+  padding: $space-xs $space-sm;
+  border-radius: $radius-pill;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+
+  @include text-small;
+}
+
+.titulo {
+  margin-bottom: -$space-xs;
+}
+
+.descricao {
+  max-width: $text-max;
+  color: var(--color-text-muted);
+}
+
+// Busca à esquerda ocupando o espaço livre; os dois filtros encostados na direita
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: $space-sm;
+}
+
+.busca {
+  flex: 1;
+  min-width: 16rem;
+}
+
+.filtro {
+  flex: 0 0 auto;
+}
+
+.resultados {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.resultadosCabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $space-xs;
+}
+
+.resultadosTitulo {
+  @include text-title;
+}
+
+.resultadosSubtitulo {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.contador {
+  color: var(--color-text-muted);
+  white-space: nowrap;
+
+  @include text-small;
+}

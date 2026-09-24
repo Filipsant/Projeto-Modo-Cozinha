@@ -1,0 +1,6 @@
+@use '@/shared/styles' as *;
+
+.switcher {
+  padding: 0 $space-xs;
+  color: var(--color-text-muted);
+}

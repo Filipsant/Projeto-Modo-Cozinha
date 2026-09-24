@@ -1,0 +1,18 @@
+@use '@/shared/styles' as *;
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-xs $space-xs $space-xs $space-sm;
+  border: 1px solid var(--color-border);
+  border-radius: $radius-card;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-overlay);
+}
+
+.message {
+  flex: 1;
+
+  @include text-small;
+}

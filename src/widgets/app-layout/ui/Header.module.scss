@@ -19,6 +19,9 @@
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-xs;
   color: var(--color-text);
   text-decoration: none;
 
@@ -28,7 +31,6 @@
 .nav {
   display: flex;
   gap: $space-xs;
-  margin-left: auto;
 }
 
 .link {
@@ -52,6 +54,10 @@
   color: var(--color-primary-hover);
 }
 
-.cta {
-  margin-left: $space-sm;
+.actions {
+  // Empurra o grupo da direita para a ponta; a navegação fica junto do logo
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  margin-left: auto;
 }

@@ -1,0 +1,28 @@
+@use '@/shared/styles' as *;
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-clearance $space-md;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: $radius-card;
+  text-align: center;
+}
+
+.icon {
+  display: flex;
+  color: var(--color-text-muted);
+}
+
+.title {
+  @include text-subhead;
+}
+
+.description {
+  max-width: 34ch;
+  color: var(--color-text-muted);
+
+  @include text-small;
+}

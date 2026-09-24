@@ -1,0 +1,22 @@
+@use '@/shared/styles' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: $space-sm;
+}
+
+.status {
+  margin-bottom: $space-xs;
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.clear {
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font-weight: $weight-semibold;
+  cursor: pointer;
+}

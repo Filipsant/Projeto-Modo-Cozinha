@@ -1,13 +1,16 @@
 import { Outlet } from 'react-router'
+import { useTranslation } from '@/shared/i18n'
 import { Footer } from './Footer'
 import { Header } from './Header'
 import styles from './AppLayout.module.scss'
 
 export function AppLayout() {
+  const { t } = useTranslation()
+
   return (
     <div className={styles.layout}>
       <a className={styles.skipLink} href="#conteudo">
-        Pular para o conteúdo
+        {t('nav.skipToContent')}
       </a>
 
       <Header />

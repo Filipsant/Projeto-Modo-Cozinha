@@ -1,24 +1,62 @@
-import { Button, Chip, IconButton } from '@/shared/ui'
+import { Hand } from 'lucide-react'
+import {
+  AreaFilter,
+  CategoryFilter,
+  SearchBar,
+  useBrowseParams,
+  useRecipeResults,
+} from '@/features/browse-recipes'
+import { useTranslation } from '@/shared/i18n'
+import { Card } from '@/shared/ui'
+import { RecipeResults } from '@/widgets/recipe-results'
+import styles from './HomePage.module.scss'
 
 export function HomePage() {
+  const { t } = useTranslation()
+  const { clearFilters } = useBrowseParams()
+  const { recipes, isPending, isError, refetch } = useRecipeResults()
+
   return (
-    <>
-      <h1>Início</h1>
-      <div
-        style={{ display: 'flex', flexWrap: 'wrap', gap: 16, padding: 24, alignItems: 'center' }}
-      >
-        <Button>Iniciar modo cozinha</Button>
-        <Button variant="secondary">Ajustar doses</Button>
-        <Button variant="ghost">Ver modo leitura</Button>
-        <Button loading>Salvando</Button>
-        <Button disabled>Indisponível</Button>
-        <Button size="cooking">Próximo passo</Button>
-        <Chip selected>Massas</Chip>
-        <Chip>Sobremesas</Chip>
-        <IconButton label="Adicionar aos favoritos" variant="surface">
-          ♥
-        </IconButton>
-      </div>
-    </>
+    <div className={styles.pagina}>
+      <Card className={styles.hero}>
+        <p className={styles.selo}>
+          <Hand size={14} aria-hidden="true" />
+          {t('home.badge')}
+        </p>
+
+        <h1 className={styles.titulo}>{t('home.title')}</h1>
+        <p className={styles.descricao}>{t('home.description')}</p>
+
+        <div className={styles.controles}>
+          <SearchBar className={styles.busca} />
+          <CategoryFilter className={styles.filtro} />
+          <AreaFilter className={styles.filtro} />
+        </div>
+      </Card>
+
+      <section className={styles.resultados} aria-labelledby="titulo-resultados">
+        <div className={styles.resultadosCabecalho}>
+          <div>
+            <h2 id="titulo-resultados" className={styles.resultadosTitulo}>
+              {t('home.resultsTitle')}
+            </h2>
+            <p className={styles.resultadosSubtitulo}>{t('home.resultsSubtitle')}</p>
+          </div>
+
+          {/* O leitor de tela precisa saber quantas receitas sobraram (RNF06) */}
+          <p className={styles.contador} role="status">
+            {recipes ? t('home.resultsFound', { count: recipes.length }) : null}
+          </p>
+        </div>
+
+        <RecipeResults
+          recipes={recipes}
+          isPending={isPending}
+          isError={isError}
+          onRetry={() => void refetch()}
+          onClearSearch={clearFilters}
+        />
+      </section>
+    </div>
   )
 }

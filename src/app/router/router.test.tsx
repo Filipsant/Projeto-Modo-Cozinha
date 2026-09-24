@@ -18,7 +18,7 @@ function renderRoute(route: string) {
 
 describe('rotas', () => {
   it.each([
-    ['/', 'Início'],
+    ['/', 'O que vamos preparar hoje?'],
     ['/receita/52772', 'Receita'],
     ['/receita/52772/cozinhar', 'Modo cozinha'],
     ['/favoritos', 'Favoritos'],

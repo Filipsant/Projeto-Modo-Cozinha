@@ -7,6 +7,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** md: 48 px do app. cooking: 64 px do modo cozinha, para mãos molhadas. */
   size?: 'md' | 'cooking'
   loading?: boolean
+  /** Ocupa toda a largura disponível, como o botão no pé do cartão de receita. */
+  fullWidth?: boolean
   /** Ícone decorativo à esquerda; quem descreve a ação é o texto do botão. */
   icon?: ReactNode
   children: ReactNode
@@ -16,6 +18,7 @@ export function Button({
   variant = 'primary',
   size = 'md',
   loading = false,
+  fullWidth = false,
   icon,
   children,
   className,
@@ -27,6 +30,7 @@ export function Button({
     styles.button,
     styles[variant],
     size === 'cooking' ? styles.cooking : null,
+    fullWidth ? styles.fullWidth : null,
     className,
   ]
     .filter(Boolean)
