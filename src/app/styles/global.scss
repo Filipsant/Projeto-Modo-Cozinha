@@ -1,0 +1,116 @@
+@use '@/shared/styles' as *;
+
+// ---------------------------------------------------------------------------
+// Temas: claro por padrão, escuro quando o sistema pede, e a escolha manual
+// do usuário (data-theme) sempre ganha das duas (RF23)
+// ---------------------------------------------------------------------------
+:root {
+  @include theme-light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include theme-dark;
+  }
+}
+
+// Sem :root, para que um trecho da tela também possa fixar um tema
+[data-theme='dark'] {
+  @include theme-dark;
+}
+
+[data-theme='light'] {
+  @include theme-light;
+}
+
+// ---------------------------------------------------------------------------
+// Reset
+// ---------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  background-color: var(--color-canvas);
+  color: var(--color-text);
+  font-family: $font-family;
+  -webkit-font-smoothing: antialiased;
+
+  @include text-body;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+// ---------------------------------------------------------------------------
+// Tipografia base
+// ---------------------------------------------------------------------------
+h1 {
+  @include text-display;
+
+  text-wrap: balance;
+}
+
+h2 {
+  @include text-title;
+
+  text-wrap: balance;
+}
+
+h3 {
+  @include text-subhead;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--color-primary);
+  text-underline-offset: 0.2em;
+}
+
+// ---------------------------------------------------------------------------
+// Foco visível em todo o app (RNF05)
+// ---------------------------------------------------------------------------
+:focus-visible {
+  @include focus-ring;
+}
+
+// ---------------------------------------------------------------------------
+// Sem animação para quem pediu isso no sistema (RNF07)
+// ---------------------------------------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

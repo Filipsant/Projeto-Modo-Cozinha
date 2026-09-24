@@ -1,0 +1,3 @@
+// API pública dos estilos. Nos componentes: @use '@/shared/styles' as *;
+@forward 'tokens';
+@forward 'mixins';

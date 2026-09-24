@@ -1,0 +1,166 @@
+// Design tokens do Modo Cozinha (Design System v1.4)
+//
+// Cores ficam em CSS custom properties, porque precisam trocar de valor em tempo
+// de execução quando o tema muda (RF23). Espaçamento, tipografia, raios e tempos
+// ficam em variáveis Sass, que desaparecem na compilação e não pesam no CSS final.
+
+// ---------------------------------------------------------------------------
+// Escala Chetwode Blue: 600 é a cor base, usada nos 10% de ação da regra 60-30-10
+// ---------------------------------------------------------------------------
+$brand-50: #f6f5fd; // tint sutil
+$brand-100: #eeecfb; // fundo secundário
+$brand-200: #dedbf9; // hover / trilho do timer
+$brand-300: #c5bef4; // acento suave
+$brand-400: #a79aeb; // barra de timer (tema escuro)
+$brand-500: #9680e5;
+$brand-600: #7752d5; // primária: CTA e ações-chave
+$brand-700: #673fc2; // hover e texto de botão secundário
+$brand-800: #5635a2; // texto ghost
+$brand-900: #482d85; // alto contraste
+$brand-950: #2c1b5a; // sombra profunda
+
+// ---------------------------------------------------------------------------
+// Neutros
+// ---------------------------------------------------------------------------
+$white: #ffffff; // superfície de cartão (30%)
+$gray-50: #f8f9fa; // canvas (60%)
+$gray-100: #eceef2; // divisórias
+$gray-200: #e1e2e6; // borda decorativa
+$gray-400: #868d9b; // borda de controle: 3,3:1 no branco, cumpre o critério 1.4.11
+$gray-600: #535a68; // texto secundário
+$gray-900: #181c24; // texto principal
+
+// ---------------------------------------------------------------------------
+// Espaçamento: grid de 8 px
+// ---------------------------------------------------------------------------
+$space-xs: 0.5rem; // 8 px
+$space-sm: 1rem; // 16 px
+$space-md: 1.5rem; // 24 px
+$space-lg: 2rem; // 32 px
+$space-xl: 2.5rem; // 40 px
+$space-clearance: 3rem; // 48 px: respiro entre blocos grandes
+
+// ---------------------------------------------------------------------------
+// Tipografia: Plus Jakarta Sans, hierarquia legível a 1 metro de distância
+// ---------------------------------------------------------------------------
+$font-family:
+  'Plus Jakarta Sans',
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  Roboto,
+  sans-serif;
+
+$font-size-display: 2rem; // 32 px: títulos de tela e passos do modo cozinha
+$font-size-title: 1.5rem; // 24 px: nome da receita
+$font-size-subhead: 1.25rem; // 20 px: seções
+$font-size-body: 1rem; // 16 px: instruções e descrições
+$font-size-small: 0.875rem; // 14 px: metadados e tags
+
+$line-height-display: 1.25; // 40 px
+$line-height-title: 1.3333; // 32 px
+$line-height-subhead: 1.4; // 28 px
+$line-height-body: 1.5; // 24 px
+$line-height-small: 1.4286; // 20 px
+
+$weight-regular: 400;
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+
+// ---------------------------------------------------------------------------
+// Raios
+// ---------------------------------------------------------------------------
+$radius-button: 0.5rem; // 8 px
+$radius-card: 0.75rem; // 12 px
+$radius-pill: 999px; // chips
+
+// ---------------------------------------------------------------------------
+// Alvos de toque (critério 2.5.5)
+// ---------------------------------------------------------------------------
+$touch-min: 2.75rem; // 44 px: mínimo de qualquer alvo
+$touch-cooking: 4rem; // 64 px: modo cozinha, para mãos molhadas
+$height-button: 3rem; // 48 px: botão padrão de navegação
+$height-chip: 2.25rem; // 36 px de altura visível; a área de toque é ampliada no componente
+
+// ---------------------------------------------------------------------------
+// Larguras e breakpoints (do celular de 360 px ao desktop de 1440 px)
+// ---------------------------------------------------------------------------
+$content-max: 75rem; // 1200 px
+$text-max: 65ch; // linha de leitura confortável
+
+$breakpoints: (
+  tablet: 48rem,
+  // 768 px
+  desktop: 64rem,
+  // 1024 px
+  wide: 90rem, // 1440 px
+);
+
+// ---------------------------------------------------------------------------
+// Movimento
+// ---------------------------------------------------------------------------
+$motion-fast: 120ms;
+$motion-base: 200ms;
+$ease-out: cubic-bezier(0.2, 0.8, 0.3, 1);
+
+// ---------------------------------------------------------------------------
+// Temas: as custom properties que o resto do app consome
+// ---------------------------------------------------------------------------
+@mixin theme-light {
+  color-scheme: light;
+
+  --color-canvas: #{$gray-50};
+  --color-surface: #{$white};
+  --color-divider: #{$gray-100};
+  --color-border: #{$gray-200};
+  --color-border-strong: #{$gray-400};
+  --color-text: #{$gray-900};
+  --color-text-muted: #{$gray-600};
+
+  --color-primary: #{$brand-600};
+  --color-primary-hover: #{$brand-700};
+  --color-primary-soft: #{$brand-100};
+  --color-primary-tint: #{$brand-50};
+  --color-on-primary: #{$white};
+
+  --color-timer: #{$brand-600};
+  --color-timer-track: #{$brand-200};
+
+  --color-success: #0f7b55;
+  --color-danger: #c0271f;
+
+  --color-focus: #{$brand-700};
+
+  --shadow-card: 0 1px 2px rgba(24, 28, 36, 0.06), 0 2px 8px rgba(24, 28, 36, 0.06);
+  --shadow-overlay: 0 8px 32px rgba(24, 28, 36, 0.18);
+}
+
+@mixin theme-dark {
+  color-scheme: dark;
+
+  --color-canvas: #12141a;
+  --color-surface: #1b1f28;
+  --color-divider: #252a35;
+  --color-border: #333a47;
+  --color-border-strong: #6b7382;
+  --color-text: #f2f4f8;
+  --color-text-muted: #a8b0be;
+
+  --color-primary: #{$brand-400};
+  --color-primary-hover: #{$brand-300};
+  --color-primary-soft: #2a2350;
+  --color-primary-tint: #1e1a3d;
+  --color-on-primary: #{$gray-900};
+
+  --color-timer: #{$brand-300};
+  --color-timer-track: #3a3168;
+
+  --color-success: #4bd6a0;
+  --color-danger: #ff8a80;
+
+  --color-focus: #{$brand-300};
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-overlay: 0 8px 32px rgba(0, 0, 0, 0.6);
+}

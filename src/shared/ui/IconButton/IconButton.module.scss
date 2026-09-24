@@ -1,0 +1,28 @@
+@use '@/shared/styles' as *;
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $touch-min;
+  height: $touch-min;
+  border: none;
+  border-radius: $radius-pill;
+  background-color: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color $motion-fast $ease-out;
+}
+
+.ghost:hover {
+  background-color: var(--color-primary-tint);
+}
+
+.surface {
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
+
+  &:hover {
+    background-color: var(--color-primary-tint);
+  }
+}

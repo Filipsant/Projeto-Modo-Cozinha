@@ -1,2 +1,2 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Normaliza as quebras de linha para LF em todos os sistemas (o Prettier espera LF)
+* text=auto eol=lf

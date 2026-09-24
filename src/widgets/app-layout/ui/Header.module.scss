@@ -1,0 +1,57 @@
+@use '@/shared/styles' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  border-bottom: 1px solid var(--color-divider);
+  background-color: var(--color-surface);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  width: 100%;
+  max-width: $content-max;
+  margin: 0 auto;
+  padding: $space-xs $space-md;
+}
+
+.logo {
+  color: var(--color-text);
+  text-decoration: none;
+
+  @include text-subhead;
+}
+
+.nav {
+  display: flex;
+  gap: $space-xs;
+  margin-left: auto;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  height: $touch-min;
+  padding: 0 $space-sm;
+  border-radius: $radius-button;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-weight: $weight-medium;
+
+  &:hover {
+    background-color: var(--color-primary-tint);
+    color: var(--color-text);
+  }
+}
+
+.linkActive {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+
+.cta {
+  margin-left: $space-sm;
+}

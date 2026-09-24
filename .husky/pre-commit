@@ -1,0 +1,16 @@
+# Não use npx aqui: o npx do Node exige bash, que não existe no ambiente
+# enxuto do GitHub Desktop. Chamar o node direto funciona em qualquer
+# cliente Git (terminal, VS Code, GitHub Desktop).
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "husky: Node não está no PATH deste cliente Git; pulei o lint-staged."
+  echo "       O CI continua verificando lint, tipos e testes."
+  exit 0
+fi
+
+if [ ! -f node_modules/lint-staged/bin/lint-staged.js ]; then
+  echo "husky: lint-staged não instalado; rode npm install. Commit liberado."
+  exit 0
+fi
+
+node node_modules/lint-staged/bin/lint-staged.js

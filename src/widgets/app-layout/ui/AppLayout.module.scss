@@ -1,0 +1,35 @@
+@use '@/shared/styles' as *;
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.skipLink {
+  position: absolute;
+  top: -100%;
+  left: $space-sm;
+  z-index: 10;
+  padding: $space-xs $space-sm;
+  border-radius: $radius-button;
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-weight: $weight-semibold;
+
+  &:focus {
+    top: $space-xs;
+  }
+}
+
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: $content-max;
+  margin: 0 auto;
+  padding: $space-md;
+
+  &:focus {
+    outline: none;
+  }
+}

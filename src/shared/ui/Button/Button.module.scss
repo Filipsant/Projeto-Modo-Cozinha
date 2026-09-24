@@ -1,0 +1,74 @@
+@use '@/shared/styles' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xs;
+  height: $height-button;
+  padding: 0 $space-md;
+  border: 1px solid transparent;
+  border-radius: $radius-button;
+  font-weight: $weight-semibold;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color $motion-fast $ease-out,
+    color $motion-fast $ease-out;
+
+  @include text-body;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+.primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+  }
+}
+
+.secondary {
+  background-color: var(--color-primary-tint);
+  color: var(--color-primary-hover);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-soft);
+  }
+}
+
+.ghost {
+  background-color: transparent;
+  color: var(--color-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-tint);
+  }
+}
+
+.cooking {
+  height: $touch-cooking;
+  padding: 0 $space-lg;
+
+  @include text-subhead;
+}
+
+.spinner {
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid currentcolor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: girar 600ms linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(1turn);
+  }
+}

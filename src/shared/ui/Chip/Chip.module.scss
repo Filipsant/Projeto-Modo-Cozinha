@@ -1,0 +1,35 @@
+@use '@/shared/styles' as *;
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-xs;
+  height: $height-chip;
+  padding: 0 $space-sm;
+  border: 1px solid var(--color-border-strong);
+  border-radius: $radius-pill;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color $motion-fast $ease-out,
+    border-color $motion-fast $ease-out;
+
+  @include text-small;
+  @include touch-target;
+
+  &:hover {
+    background-color: var(--color-primary-tint);
+  }
+}
+
+.selected {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+  }
+}

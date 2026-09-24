@@ -1,0 +1,16 @@
+@use '@/shared/styles' as *;
+
+.footer {
+  width: 100%;
+  max-width: $content-max;
+  margin: 0 auto;
+  padding: $space-lg $space-md;
+  border-top: 1px solid var(--color-divider);
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.tagline {
+  margin-top: $space-xs;
+}

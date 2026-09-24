@@ -1,0 +1,92 @@
+@use 'sass:map';
+@use 'tokens' as *;
+
+// ---------------------------------------------------------------------------
+// Breakpoints: sempre do celular para cima
+//   @include from(tablet) { ... }
+// ---------------------------------------------------------------------------
+@mixin from($breakpoint) {
+  @if not map.has-key($breakpoints, $breakpoint) {
+    @error 'Breakpoint desconhecido: #{$breakpoint}. Use: #{map.keys($breakpoints)}.';
+  }
+
+  @media (min-width: map.get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tipografia: os cinco papéis do design system
+// ---------------------------------------------------------------------------
+@mixin text-display {
+  font-size: $font-size-display;
+  line-height: $line-height-display;
+  font-weight: $weight-bold;
+  letter-spacing: -0.02em;
+}
+
+@mixin text-title {
+  font-size: $font-size-title;
+  line-height: $line-height-title;
+  font-weight: $weight-bold;
+  letter-spacing: -0.01em;
+}
+
+@mixin text-subhead {
+  font-size: $font-size-subhead;
+  line-height: $line-height-subhead;
+  font-weight: $weight-semibold;
+}
+
+@mixin text-body {
+  font-size: $font-size-body;
+  line-height: $line-height-body;
+  font-weight: $weight-regular;
+}
+
+@mixin text-small {
+  font-size: $font-size-small;
+  line-height: $line-height-small;
+  font-weight: $weight-medium;
+}
+
+// Quantidades, porções e timers: os dígitos não mudam de largura ao contar
+@mixin tabular-numbers {
+  font-variant-numeric: tabular-nums;
+}
+
+// ---------------------------------------------------------------------------
+// Acessibilidade
+// ---------------------------------------------------------------------------
+@mixin focus-ring {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+// Garante o alvo mínimo mesmo quando o elemento é visualmente menor (critério 2.5.5)
+@mixin touch-target($size: $touch-min) {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, #{$size});
+    height: max(100%, #{$size});
+    transform: translate(-50%, -50%);
+  }
+}
+
+// Visível para leitores de tela, invisível na tela
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
