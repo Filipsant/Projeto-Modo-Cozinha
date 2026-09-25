@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router'
+import { FavoritesUndoToast } from '@/features/favorite-recipe'
 import { useTranslation } from '@/shared/i18n'
 import { Footer } from './Footer'
 import { Header } from './Header'
@@ -20,6 +21,9 @@ export function AppLayout() {
       </main>
 
       <Footer />
+
+      {/* No layout, e não no cartão: o aviso continua na tela depois que o cartão some */}
+      <FavoritesUndoToast />
     </div>
   )
 }

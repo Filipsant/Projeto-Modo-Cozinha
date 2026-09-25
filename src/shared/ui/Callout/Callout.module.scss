@@ -1,0 +1,36 @@
+@use '@/shared/styles' as *;
+
+// Cinza no tema claro e um degrau abaixo do cartão no escuro, como no design
+.callout {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-sm;
+  padding: $space-md;
+  border: 1px solid var(--color-divider);
+  border-radius: $radius-card;
+  background-color: var(--color-callout);
+}
+
+.icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $space-xl;
+  height: $space-xl;
+  border-radius: $radius-pill;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.title {
+  font-size: $font-size-body;
+  line-height: $line-height-body;
+  font-weight: $weight-bold;
+}
+
+.text {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}

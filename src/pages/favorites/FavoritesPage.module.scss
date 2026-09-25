@@ -1,0 +1,69 @@
+@use '@/shared/styles' as *;
+
+.page {
+  display: grid;
+  gap: $space-md;
+}
+
+// Mesmo cartão de abertura da home, para as duas telas parecerem do mesmo app
+.hero {
+  gap: $space-sm;
+  padding: $space-lg;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-sm;
+}
+
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.count {
+  padding: 2px $space-sm;
+  border-radius: $radius-pill;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+  white-space: nowrap;
+
+  @include text-small;
+}
+
+.reverseActive {
+  color: var(--color-primary);
+}
+
+.description {
+  max-width: $text-max;
+  color: var(--color-text-muted);
+}
+
+// Busca à esquerda ocupando o espaço livre; os chips encostados na direita
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-sm;
+  margin-top: $space-xs;
+}
+
+.search {
+  flex: 1;
+  min-width: 16rem;
+}
+
+.views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-xs;
+}
+
+.status {
+  @include visually-hidden;
+}

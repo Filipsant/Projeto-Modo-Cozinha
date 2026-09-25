@@ -1,0 +1,124 @@
+@use '@/shared/styles' as *;
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xs;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.titleIcon {
+  color: var(--color-primary);
+}
+
+.count {
+  padding: 2px $space-sm;
+  border: 1px solid var(--color-border);
+  border-radius: $radius-pill;
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: $space-md;
+  padding: $space-md;
+}
+
+.number {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $space-xl;
+  height: $space-xl;
+  border-radius: $radius-pill;
+  background-color: var(--color-divider);
+  font-weight: $weight-bold;
+
+  @include tabular-numbers;
+}
+
+// O primeiro passo vem destacado: é por onde a pessoa começa
+.first {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+// Texto à esquerda, tempo encostado na direita; os ingredientes ocupam a linha toda
+.content {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: $space-sm;
+  align-items: start;
+}
+
+.text {
+  max-width: $text-max;
+}
+
+.time {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px $space-xs;
+  border-radius: $radius-pill;
+  background-color: var(--color-warm-soft);
+  color: var(--color-warm);
+  font-weight: $weight-semibold;
+  white-space: nowrap;
+
+  @include text-small;
+  @include tabular-numbers;
+}
+
+.ingredients {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.ingredientsLabel {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.ingredient {
+  padding: 2px $space-xs;
+  border-radius: $radius-button;
+  background-color: var(--color-divider);
+
+  @include text-small;
+}
+
+.visuallyHidden {
+  @include visually-hidden;
+}

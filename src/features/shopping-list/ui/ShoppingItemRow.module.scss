@@ -1,0 +1,45 @@
+@use '@/shared/styles' as *;
+
+// A linha inteira é o rótulo: no mercado, com o celular numa mão, qualquer
+// toque na linha marca o item
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-sm;
+  min-height: $height-button;
+  padding: $space-xs 0;
+  cursor: pointer;
+}
+
+.checkbox {
+  flex-shrink: 0;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin: 2px 0 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.amount {
+  font-weight: $weight-semibold;
+
+  @include tabular-numbers;
+}
+
+.detail {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+// Comprado: riscado e apagado, como no design
+.bought .main {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}

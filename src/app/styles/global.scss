@@ -36,6 +36,12 @@
   margin: 0;
 }
 
+// Um display: flex de componente venceria o hidden do navegador e deixaria à
+// mostra o que devia estar escondido, como o painel de um menu fechado
+[hidden] {
+  display: none !important;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
 }

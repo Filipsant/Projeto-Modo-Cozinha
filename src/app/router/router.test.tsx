@@ -19,10 +19,10 @@ function renderRoute(route: string) {
 describe('rotas', () => {
   it.each([
     ['/', 'O que vamos preparar hoje?'],
-    ['/receita/52772', 'Receita'],
-    ['/receita/52772/cozinhar', 'Modo cozinha'],
-    ['/favoritos', 'Favoritos'],
-    ['/lista-de-compras', 'Lista de compras'],
+    ['/receita/52772', 'Teriyaki Chicken Casserole'],
+    ['/receita/52772/cozinhar', 'Modo Cozinha Ativo'],
+    ['/favoritos', 'Receitas Favoritas'],
+    ['/lista-de-compras', 'Lista de Compras'],
     ['/rota-que-nao-existe', 'Página não encontrada'],
   ])('%s abre a página "%s"', async (route, title) => {
     renderRoute(route)

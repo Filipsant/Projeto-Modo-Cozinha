@@ -13,6 +13,7 @@ function receita(parcial: Partial<Recipe>): Recipe {
     tags: [],
     estimatedMinutes: 10,
     difficulty: 'easy',
+    methods: ['noCook'],
     ...parcial,
   }
 }

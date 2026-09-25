@@ -31,7 +31,14 @@ describe('HomePage', () => {
 
     await user.type(screen.getByRole('searchbox'), 'zzzzzz')
 
-    expect(await screen.findByText('Nenhuma receita encontrada', {}, ESPERA_DA_BUSCA)).toBeVisible()
+    expect(
+      await screen.findByText(
+        'Tente ajustar seus termos ou explore categorias sugeridas.',
+        {},
+        ESPERA_DA_BUSCA,
+      ),
+    ).toBeVisible()
+    expect(screen.getByRole('status')).toHaveTextContent('Nenhuma receita encontrada')
   })
 
   it('mostra erro com botão de tentar de novo quando a API falha', async () => {

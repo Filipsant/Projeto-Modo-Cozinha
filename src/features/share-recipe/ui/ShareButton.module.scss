@@ -1,0 +1,10 @@
+@use '@/shared/styles' as *;
+
+// Canto inferior, longe do conteúdo: o aviso não cobre o que a pessoa está lendo
+.notice {
+  position: fixed;
+  right: $space-md;
+  bottom: $space-md;
+  z-index: 20;
+  width: min(24rem, calc(100vw - #{$space-md * 2}));
+}

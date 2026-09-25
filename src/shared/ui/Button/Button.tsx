@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react'
 import styles from './Button.module.scss'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -12,6 +12,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Ícone decorativo à esquerda; quem descreve a ação é o texto do botão. */
   icon?: ReactNode
   children: ReactNode
+  /** No React 19 ref é uma prop comum: o diálogo usa para pôr o foco no Cancelar. */
+  ref?: Ref<HTMLButtonElement>
 }
 
 export function Button({

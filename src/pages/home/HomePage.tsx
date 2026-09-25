@@ -1,4 +1,4 @@
-import { Hand } from 'lucide-react'
+import { Expand, Hand } from 'lucide-react'
 import {
   AreaFilter,
   CategoryFilter,
@@ -7,7 +7,7 @@ import {
   useRecipeResults,
 } from '@/features/browse-recipes'
 import { useTranslation } from '@/shared/i18n'
-import { Card } from '@/shared/ui'
+import { Callout, Card } from '@/shared/ui'
 import { RecipeResults } from '@/widgets/recipe-results'
 import styles from './HomePage.module.scss'
 
@@ -44,7 +44,10 @@ export function HomePage() {
           </div>
 
           {/* O leitor de tela precisa saber quantas receitas sobraram (RNF06) */}
-          <p className={styles.contador} role="status">
+          <p
+            className={recipes?.length === 0 ? styles.contadorOculto : styles.contador}
+            role="status"
+          >
             {recipes ? t('home.resultsFound', { count: recipes.length }) : null}
           </p>
         </div>
@@ -57,6 +60,10 @@ export function HomePage() {
           onClearSearch={clearFilters}
         />
       </section>
+
+      <Callout icon={<Expand size={20} />} title={t('home.tipTitle')}>
+        {t('home.tipText')}
+      </Callout>
     </div>
   )
 }

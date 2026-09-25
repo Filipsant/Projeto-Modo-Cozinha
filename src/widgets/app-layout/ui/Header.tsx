@@ -1,6 +1,7 @@
 import { ChefHat } from 'lucide-react'
 import { Link, NavLink } from 'react-router'
 import { LanguageSwitcher } from '@/features/language-switcher'
+import { usePendingCount } from '@/features/shopping-list'
 import { useTranslation } from '@/shared/i18n'
 import { ButtonLink } from '@/shared/ui'
 import { navItems } from '../model/navItems'
@@ -8,6 +9,7 @@ import styles from './Header.module.scss'
 
 export function Header() {
   const { t } = useTranslation()
+  const pending = usePendingCount()
 
   return (
     <header className={styles.header}>
@@ -28,6 +30,15 @@ export function Header() {
               }
             >
               {t(item.labelKey)}
+              {item.to === '/lista-de-compras' && pending > 0 ? (
+                <span className={styles.badge}>
+                  <span aria-hidden="true">{pending}</span>
+                  {/* O leitor de tela ouve "Lista de compras, 7 itens pendentes", e não só "7" */}
+                  <span className={styles.visuallyHidden}>
+                    , {t('shopping.pendingInNav', { count: pending })}
+                  </span>
+                </span>
+              ) : null}
             </NavLink>
           ))}
         </nav>

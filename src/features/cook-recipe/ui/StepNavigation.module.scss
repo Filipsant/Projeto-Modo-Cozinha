@@ -1,0 +1,29 @@
+@use '@/shared/styles' as *;
+
+// Presa no rodapé, como no design: os dois botões sempre no mesmo lugar
+.bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  padding: $space-sm $space-md calc(#{$space-sm} + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  box-shadow: 0 -8px 24px rgba(24, 28, 36, 0.06);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: $space-sm;
+  max-width: $content-max;
+  margin: 0 auto;
+}
+
+.previous,
+.next {
+  width: 100%;
+}
+
+.next {
+  box-shadow: 0 8px 24px rgba(119, 82, 213, 0.28);
+}

@@ -5,14 +5,53 @@
   align-items: center;
   gap: $space-xs;
   padding: $space-xs $space-xs $space-xs $space-sm;
-  border: 1px solid var(--color-border);
   border-radius: $radius-card;
-  background-color: var(--color-surface);
+  background-color: var(--color-inverse-surface);
+  color: var(--color-on-inverse);
   box-shadow: var(--shadow-overlay);
+
+  // O anel de foco do tema sumiria no fundo invertido
+  --color-focus: var(--color-inverse-primary);
+}
+
+.icon {
+  display: flex;
+  flex-shrink: 0;
 }
 
 .message {
   flex: 1;
 
   @include text-small;
+}
+
+.action,
+.dismiss {
+  min-height: $touch-min;
+  border: none;
+  border-radius: $radius-button;
+  background: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-inverse-hover);
+  }
+}
+
+.action {
+  padding: 0 $space-sm;
+  color: var(--color-inverse-primary);
+  font-weight: $weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  @include text-small;
+}
+
+.dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $touch-min;
+  color: inherit;
 }

@@ -26,12 +26,14 @@ describe('mapper da receita', () => {
     expect(receita.ingredients.every((item) => item.name.length > 0)).toBe(true)
   })
 
-  it('deriva tempo e dificuldade, que a API não fornece', () => {
+  it('deriva tempo, dificuldade e método, que a API não fornece', () => {
     const { meals } = mealsResponseDto.parse(fixtures.lookupTeriyaki)
     const receita = toRecipe(meals![0])
 
     expect(receita.estimatedMinutes).toBeGreaterThan(0)
     expect(['easy', 'medium', 'hard']).toContain(receita.difficulty)
+    // Três passos falam de forno e dois de panela no fogo
+    expect(receita.methods).toEqual(['oven', 'stovetop'])
   })
 
   it('entende a resposta de busca sem resultados', () => {

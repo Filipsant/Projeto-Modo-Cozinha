@@ -1,0 +1,131 @@
+@use '@/shared/styles' as *;
+
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+// No desktop os grupos ficam lado a lado; cada um só ocupa a altura dos seus itens
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
+  gap: $space-sm;
+  align-items: start;
+}
+
+.group {
+  gap: $space-xs;
+  padding: $space-md;
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding-bottom: $space-xs;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.groupIcon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $space-xl;
+  height: $space-xl;
+  border-radius: $radius-button;
+  background-color: var(--color-divider);
+  color: var(--color-primary);
+}
+
+.groupTitles {
+  flex: 1;
+  min-width: 0;
+}
+
+.groupTitle {
+  @include text-subhead;
+}
+
+.groupLink {
+  color: var(--color-text);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.groupSubtitle {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.groupCount {
+  flex-shrink: 0;
+  padding: 2px $space-xs;
+  border-radius: $radius-pill;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+  font-weight: $weight-semibold;
+  white-space: nowrap;
+
+  @include text-small;
+}
+
+.list {
+  padding: 0;
+  list-style: none;
+}
+
+// ---------------------------------------------------------------------------
+// Itens já comprados: caixa cinza que abre e fecha, como no design
+// ---------------------------------------------------------------------------
+.bought {
+  padding: $space-sm $space-md;
+  border: 1px solid var(--color-divider);
+  border-radius: $radius-card;
+  background-color: var(--color-callout);
+}
+
+.boughtSummary {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  min-height: $touch-min;
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.boughtIcon {
+  color: var(--color-primary);
+}
+
+.boughtTitle {
+  font-weight: $weight-bold;
+}
+
+.boughtCount {
+  padding: 0 $space-xs;
+  border-radius: $radius-pill;
+  background-color: var(--color-divider);
+  color: var(--color-text-muted);
+
+  @include text-small;
+  @include tabular-numbers;
+}
+
+.chevron {
+  margin-left: auto;
+  transition: transform $motion-fast $ease-out;
+}
+
+.bought[open] .chevron {
+  transform: rotate(180deg);
+}

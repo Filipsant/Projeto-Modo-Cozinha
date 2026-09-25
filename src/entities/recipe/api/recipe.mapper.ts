@@ -1,3 +1,4 @@
+import { detectCookingMethods } from '../lib/detectCookingMethods'
 import { estimateCookTimeMinutes } from '../lib/estimateCookTime'
 import { estimateDifficulty } from '../lib/estimateDifficulty'
 import { splitSteps } from '../lib/splitSteps'
@@ -25,6 +26,7 @@ export function toRecipe(dto: MealDto): Recipe {
       ingredientCount: ingredients.length,
       stepCount: steps.length,
     }),
+    methods: detectCookingMethods(steps),
   }
 }
 

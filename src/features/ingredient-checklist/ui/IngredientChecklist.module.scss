@@ -1,0 +1,94 @@
+@use '@/shared/styles' as *;
+
+.card {
+  padding: $space-md;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xs;
+  padding-bottom: $space-sm;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.titleIcon {
+  color: var(--color-primary);
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  color: var(--color-text-muted);
+
+  @include text-small;
+  @include tabular-numbers;
+}
+
+.toggleAll {
+  min-height: $touch-min;
+  padding: 0 $space-xs;
+  border: none;
+  border-radius: $radius-button;
+  background: none;
+  color: var(--color-primary);
+  font-weight: $weight-semibold;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-primary-tint);
+  }
+}
+
+.list {
+  padding: 0;
+  list-style: none;
+
+  li + li {
+    border-top: 1px solid var(--color-divider);
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  min-height: $height-button;
+  padding: $space-xs;
+  cursor: pointer;
+}
+
+.checkbox {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.name {
+  flex: 1;
+}
+
+// Riscado e apagado: o que já está na bancada sai do caminho do olho
+.row:has(.checkbox:checked) .name {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
+.measure {
+  font-weight: $weight-medium;
+  text-align: right;
+
+  @include tabular-numbers;
+}

@@ -1,0 +1,15 @@
+@use '@/shared/styles' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  max-width: $content-max;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: $space-lg $space-md;
+}
+
+.title {
+  @include text-title;
+}

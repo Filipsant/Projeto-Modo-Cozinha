@@ -1,0 +1,140 @@
+@use '@/shared/styles' as *;
+
+.card {
+  gap: $space-sm;
+  padding: $space-md;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $space-xl;
+  height: $space-xl;
+  border-radius: $radius-pill;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.heading {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: $font-size-body;
+  line-height: $line-height-body;
+  font-weight: $weight-bold;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.status {
+  flex-shrink: 0;
+  padding: 2px $space-sm;
+  border-radius: $radius-pill;
+  font-weight: $weight-semibold;
+  white-space: nowrap;
+
+  @include text-small;
+}
+
+.idle,
+.paused {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+
+.running {
+  background-color: var(--color-warm-soft);
+  color: var(--color-warm);
+}
+
+.done {
+  background-color: var(--color-danger);
+  color: var(--color-on-primary);
+}
+
+// O relógio grande à esquerda; os botões redondos à direita, como no design
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-sm;
+  padding: $space-sm $space-md;
+  border-radius: $radius-card;
+  background-color: var(--color-canvas);
+}
+
+.clock {
+  color: var(--color-primary);
+  font-size: 3rem;
+  line-height: 1.1;
+  font-weight: $weight-bold;
+  letter-spacing: 0.02em;
+
+  @include tabular-numbers;
+}
+
+.caption {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.reset,
+.play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: $radius-pill;
+  cursor: pointer;
+  transition: background-color $motion-fast $ease-out;
+}
+
+.reset {
+  width: $touch-min;
+  height: $touch-min;
+  background-color: var(--color-divider);
+  color: var(--color-text);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-border);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+// 64 px: o botão que mais se toca com a mão molhada
+.play {
+  width: $touch-cooking;
+  height: $touch-cooking;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  box-shadow: 0 8px 24px rgba(119, 82, 213, 0.32);
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+  }
+}

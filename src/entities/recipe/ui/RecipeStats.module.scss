@@ -1,0 +1,44 @@
+@use '@/shared/styles' as *;
+
+.card {
+  padding: $space-sm;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $space-xs;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: $space-sm $space-xs;
+  border-radius: $radius-button;
+  background-color: var(--color-canvas);
+  text-align: center;
+}
+
+.icon {
+  display: flex;
+  margin-bottom: 4px;
+  color: var(--color-primary);
+}
+
+.warm {
+  color: var(--color-warm);
+}
+
+.label {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.value {
+  font-weight: $weight-bold;
+
+  @include tabular-numbers;
+}

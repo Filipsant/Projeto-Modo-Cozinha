@@ -1,0 +1,83 @@
+@use '@/shared/styles' as *;
+
+.actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.share {
+  min-width: 12rem;
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $height-button;
+  height: $height-button;
+  border: 1px solid var(--color-border);
+  border-radius: $radius-pill;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+
+  &:hover,
+  &[aria-expanded='true'] {
+    background-color: var(--color-primary-tint);
+  }
+}
+
+// Abre embaixo do "⋮", alinhado pela direita
+.panel {
+  position: absolute;
+  top: calc(100% + #{$space-xs});
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  min-width: 15rem;
+  padding: $space-xs;
+  border: 1px solid var(--color-border);
+  border-radius: $radius-card;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-overlay);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  min-height: $touch-min;
+  padding: 0 $space-sm;
+  border: none;
+  border-radius: $radius-button;
+  background: none;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+
+  @include text-small;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-tint);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.danger {
+  color: var(--color-danger);
+}
+
+.notice {
+  position: fixed;
+  right: $space-md;
+  bottom: $space-md;
+  z-index: 20;
+  width: min(24rem, calc(100vw - #{$space-md * 2}));
+}

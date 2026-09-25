@@ -1,0 +1,196 @@
+@use '@/shared/styles' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+// ---------------------------------------------------------------------------
+// Trilha e ferramentas
+// ---------------------------------------------------------------------------
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-sm;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0;
+  list-style: none;
+
+  @include text-small;
+
+  li + li::before {
+    content: '/';
+    margin: 0 $space-xs;
+    color: var(--color-text-muted);
+  }
+}
+
+.crumbRoot,
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.crumbRoot {
+  color: var(--color-text);
+}
+
+.crumb {
+  color: var(--color-primary);
+}
+
+.crumbCurrent {
+  font-weight: $weight-semibold;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px $space-sm;
+  border-radius: $radius-pill;
+  background-color: var(--color-primary-tint);
+  color: var(--color-primary-hover);
+
+  @include text-small;
+}
+
+// ---------------------------------------------------------------------------
+// Duas colunas no desktop, como no design: 2/5 para a receita e 3/5 para o preparo
+// ---------------------------------------------------------------------------
+.columns {
+  display: grid;
+  gap: $space-md;
+  align-items: start;
+
+  @include from(desktop) {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+}
+
+.aside,
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.aside {
+  gap: $space-sm;
+}
+
+// ---------------------------------------------------------------------------
+// Rendimento: porções em cima, sistema de medidas embaixo, separados por uma linha
+// ---------------------------------------------------------------------------
+.yield {
+  gap: 0;
+  padding: $space-md;
+}
+
+// Texto à esquerda, que quebra linha se precisar; o − 4 + nunca desce
+.yieldRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-sm;
+  padding-bottom: $space-sm;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.yieldText {
+  flex: 1;
+  min-width: 0;
+}
+
+.yieldTitle {
+  font-size: $font-size-body;
+  line-height: $line-height-body;
+  font-weight: $weight-bold;
+}
+
+.yieldDescription {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.system {
+  padding-top: $space-sm;
+}
+
+// ---------------------------------------------------------------------------
+// Começar a cozinhar: ícone e texto à esquerda, seta encostada na direita
+// ---------------------------------------------------------------------------
+.start {
+  width: 100%;
+  margin-top: $space-xs;
+  box-shadow: 0 8px 24px rgba(119, 82, 213, 0.28);
+}
+
+.startLabel {
+  flex: 1;
+  text-align: left;
+}
+
+// ---------------------------------------------------------------------------
+// Dica de bancada
+// ---------------------------------------------------------------------------
+.tip {
+  margin-top: $space-xs;
+}
+
+// ---------------------------------------------------------------------------
+// Carregando: os mesmos blocos, cinza e pulsando
+// ---------------------------------------------------------------------------
+.skeleton {
+  border-radius: $radius-card;
+  background-color: var(--color-divider);
+  animation: pulsar 1.4s ease-in-out infinite;
+}
+
+.skeletonHero {
+  aspect-ratio: 4 / 3;
+}
+
+.skeletonBlock {
+  height: 6rem;
+}
+
+.skeletonTall {
+  height: 22rem;
+}
+
+.status {
+  @include visually-hidden;
+}
+
+@keyframes pulsar {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}

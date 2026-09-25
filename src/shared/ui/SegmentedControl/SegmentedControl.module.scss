@@ -1,0 +1,78 @@
+@use '@/shared/styles' as *;
+
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-xs;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.icon,
+.optionIcon {
+  display: flex;
+}
+
+// Cresce para ocupar o que sobra da linha. Sem espaço ao lado do rótulo, desce
+// e ocupa a largura toda, com as opções em partes iguais
+.options {
+  display: flex;
+  flex: 1 1 auto;
+  padding: 4px;
+  border-radius: $radius-pill;
+  background-color: var(--color-divider);
+}
+
+.option {
+  position: relative;
+  flex: 1;
+  cursor: pointer;
+}
+
+// Some da tela, mas continua focável e clicável pelo rótulo
+.radio {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 2.25rem;
+  padding: 0 $space-sm;
+  border-radius: $radius-pill;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  transition:
+    background-color $motion-fast $ease-out,
+    color $motion-fast $ease-out;
+
+  @include text-small;
+}
+
+.radio:checked + .text {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: $weight-semibold;
+}
+
+.radio:focus-visible + .text {
+  @include focus-ring;
+}
+
+.option:hover .radio:not(:checked) + .text {
+  color: var(--color-text);
+}

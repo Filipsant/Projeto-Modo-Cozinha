@@ -4,8 +4,11 @@ import { Link } from 'react-router'
 import { BASE_SERVINGS } from '@/shared/config'
 import { useTranslation } from '@/shared/i18n'
 import { ButtonLink, Card } from '@/shared/ui'
+import { translateIngredient } from '../lib/translateIngredient'
+import { ingredientKey, uniqueIngredients } from '../lib/uniqueIngredients'
 import type { Recipe } from '../model/recipe.types'
 import styles from './RecipeCard.module.scss'
+import { useDurationLabel } from './useDurationLabel'
 
 const MAIN_INGREDIENTS = 3
 
@@ -16,9 +19,13 @@ interface RecipeCardProps {
 }
 
 export function RecipeCard({ recipe, actions }: RecipeCardProps) {
-  const { t } = useTranslation()
-  const main = recipe.ingredients.slice(0, MAIN_INGREDIENTS)
-  const rest = recipe.ingredients.length - main.length
+  const { t, i18n } = useTranslation()
+  const language = i18n.resolvedLanguage ?? 'pt-BR'
+  const durationLabel = useDurationLabel()
+  const tempo = durationLabel(recipe.estimatedMinutes, { estimated: true })
+  const distinct = uniqueIngredients(recipe.ingredients)
+  const main = distinct.slice(0, MAIN_INGREDIENTS)
+  const rest = distinct.length - main.length
 
   return (
     <Card className={styles.card}>
@@ -34,7 +41,7 @@ export function RecipeCard({ recipe, actions }: RecipeCardProps) {
 
         <span className={styles.time}>
           <Timer size={14} aria-hidden="true" />
-          {t('common.estimated', { count: recipe.estimatedMinutes })}
+          {tempo}
         </span>
 
         {actions ? <div className={styles.actions}>{actions}</div> : null}
@@ -64,8 +71,8 @@ export function RecipeCard({ recipe, actions }: RecipeCardProps) {
             <span className={styles.ingredientsLabel}>{t('recipe.mainIngredients')}</span>
             <span className={styles.ingredientsList}>
               {main.map((ingredient) => (
-                <span key={ingredient.name} className={styles.ingredient}>
-                  {ingredient.name}
+                <span key={ingredientKey(ingredient)} className={styles.ingredient}>
+                  {translateIngredient(ingredient.name, language)}
                 </span>
               ))}
               {rest > 0 ? <span className={styles.ingredient}>+{rest}</span> : null}

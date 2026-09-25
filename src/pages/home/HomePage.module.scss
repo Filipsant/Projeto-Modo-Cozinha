@@ -73,9 +73,42 @@
   @include text-small;
 }
 
+// Pílula com um ponto roxo, como o "● 4 receitas prontas" do design
 .contador {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: 4px $space-sm;
+  border: 1px solid var(--color-divider);
+  border-radius: $radius-pill;
+  background-color: var(--color-surface);
   color: var(--color-text-muted);
   white-space: nowrap;
 
   @include text-small;
+
+  &::before {
+    content: '';
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: $radius-pill;
+    background-color: var(--color-primary);
+  }
+
+  // Sem pílula enquanto carrega. Nada de display: none, que tiraria o status da
+  // árvore de acessibilidade e o leitor de tela perderia o primeiro anúncio
+  &:empty {
+    padding: 0;
+    border: 0;
+
+    &::before {
+      content: none;
+    }
+  }
+}
+
+// Com zero resultados o aviso de vazio já diz isso na tela; o status continua
+// existindo para o leitor de tela
+.contadorOculto {
+  @include visually-hidden;
 }

@@ -1,0 +1,20 @@
+@use '@/shared/styles' as *;
+
+.button {
+  background-color: var(--color-primary-soft);
+}
+
+// A pílula branca com "9 itens", dentro do botão, como no design
+.count {
+  padding: 2px $space-xs;
+  border-radius: $radius-pill;
+  background-color: var(--color-surface);
+  color: var(--color-primary-hover);
+  font-weight: $weight-semibold;
+
+  @include text-small;
+}
+
+.status {
+  @include visually-hidden;
+}

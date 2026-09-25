@@ -1,0 +1,66 @@
+@use '@/shared/styles' as *;
+
+// Faixa roxa em cima, como no design: destaca o cartão no fim da lista de passos
+.card {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-md;
+  border-top: 3px solid var(--color-primary);
+}
+
+.icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $space-xl;
+  height: $space-xl;
+  border-radius: $radius-pill;
+  background-color: var(--color-divider);
+  color: var(--color-primary);
+}
+
+.text {
+  flex: 1;
+  min-width: 12rem;
+}
+
+.title {
+  font-size: $font-size-body;
+  line-height: $line-height-body;
+  font-weight: $weight-bold;
+}
+
+.description {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.clock {
+  font-size: $font-size-subhead;
+  font-weight: $weight-bold;
+  letter-spacing: 0.08em;
+
+  @include tabular-numbers;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: $touch-min;
+  padding: 0 $space-sm;
+  border: none;
+  border-radius: $radius-button;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: $weight-semibold;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+  }
+}

@@ -1,0 +1,292 @@
+@use '@/shared/styles' as *;
+
+.session {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+// ---------------------------------------------------------------------------
+// Barra de cima: voltar, título e o aviso de tela acesa
+// ---------------------------------------------------------------------------
+.topbar {
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.topbarInner {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  max-width: $content-max;
+  margin: 0 auto;
+  padding: $space-xs $space-md;
+}
+
+.back {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $touch-min;
+  height: $touch-min;
+  border-radius: $radius-pill;
+  color: var(--color-text);
+
+  &:hover {
+    background-color: var(--color-primary-tint);
+  }
+}
+
+.titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  @include text-subhead;
+}
+
+.recipeName {
+  overflow: hidden;
+  color: var(--color-text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @include text-small;
+}
+
+.wakeLock {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+  padding: 4px $space-sm;
+  border-radius: $radius-pill;
+  background-color: var(--color-warm-soft);
+  color: var(--color-warm);
+  font-weight: $weight-semibold;
+
+  @include text-small;
+}
+
+// ---------------------------------------------------------------------------
+// Progresso: "Passo 3 de 6" e "50% pronto", com a barra logo abaixo
+// ---------------------------------------------------------------------------
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: $space-sm;
+  width: 100%;
+  max-width: $content-max;
+  margin: 0 auto;
+  padding: $space-md;
+}
+
+.progressRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $space-sm;
+}
+
+.stepCounter {
+  color: var(--color-text-muted);
+
+  @include text-body;
+}
+
+.stepCurrent {
+  color: var(--color-primary);
+
+  @include text-title;
+}
+
+.percent {
+  padding: 2px $space-sm;
+  border-radius: $radius-pill;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+  font-weight: $weight-semibold;
+
+  @include text-small;
+}
+
+.progress {
+  width: 100%;
+  height: 0.5rem;
+  border: none;
+  border-radius: $radius-pill;
+  background-color: var(--color-divider);
+  overflow: hidden;
+  appearance: none;
+
+  &::-webkit-progress-bar {
+    background-color: var(--color-divider);
+  }
+
+  &::-webkit-progress-value {
+    border-radius: $radius-pill;
+    background-color: var(--color-primary);
+    transition: width $motion-base $ease-out;
+  }
+
+  &::-moz-progress-bar {
+    border-radius: $radius-pill;
+    background-color: var(--color-primary);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Passo à esquerda, em letra grande; timer e ingredientes à direita
+// ---------------------------------------------------------------------------
+.grid {
+  display: grid;
+  gap: $space-md;
+  align-items: start;
+  margin-top: $space-xs;
+
+  @include from(desktop) {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: stretch;
+  }
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: $radius-card;
+  object-fit: cover;
+}
+
+// Ocupa a altura da coluna: o texto fica sempre no mesmo lugar, passo após passo
+.stepCard {
+  gap: $space-sm;
+  min-height: 100%;
+  padding: $space-xl;
+}
+
+.stepTitle {
+  @include text-display;
+}
+
+// 24 px com entrelinha folgada: dá para ler a um metro da bancada
+.stepText {
+  max-width: 52ch;
+  color: var(--color-text-muted);
+  font-size: 1.75rem;
+  line-height: 1.6;
+}
+
+.mention {
+  color: var(--color-text);
+  font-weight: $weight-semibold;
+}
+
+.hint {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+// ---------------------------------------------------------------------------
+// Ingredientes deste passo
+// ---------------------------------------------------------------------------
+.ingredientsCard {
+  gap: $space-xs;
+  padding: $space-md;
+}
+
+.ingredientsTitle {
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  font-size: $font-size-body;
+  line-height: $line-height-body;
+  font-weight: $weight-bold;
+}
+
+.ingredientsIcon {
+  color: var(--color-primary);
+}
+
+.ingredientsList {
+  padding: 0;
+  list-style: none;
+}
+
+.ingredientRow {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-sm;
+  padding: $space-xs 0;
+
+  & + & {
+    border-top: 1px solid var(--color-divider);
+  }
+}
+
+.ingredientMeasure {
+  font-weight: $weight-semibold;
+  text-align: right;
+
+  @include tabular-numbers;
+}
+
+.ingredientsEmpty {
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+// ---------------------------------------------------------------------------
+// Receita concluída
+// ---------------------------------------------------------------------------
+.done,
+.empty {
+  align-items: center;
+  align-self: center;
+  width: 100%;
+  max-width: 36rem;
+  margin-top: $space-xl;
+  padding: $space-xl $space-lg;
+  text-align: center;
+}
+
+.doneIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: $radius-pill;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.doneTitle {
+  @include text-display;
+}
+
+.doneText {
+  max-width: 34ch;
+  color: var(--color-text-muted);
+}
+
+.doneActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: $space-sm;
+  margin-top: $space-xs;
+}

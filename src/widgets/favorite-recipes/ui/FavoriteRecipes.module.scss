@@ -1,0 +1,19 @@
+@use '@/shared/styles' as *;
+
+// Mesma grade da home: os cartões têm a mesma largura nas duas telas
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: $space-sm;
+  padding: 0;
+  list-style: none;
+}
+
+// O cartão estica até o fim da linha, e o botão de cada um fica na mesma altura
+.item {
+  display: flex;
+
+  > * {
+    flex: 1;
+  }
+}

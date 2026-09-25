@@ -1,17 +1,10 @@
 import type { Recipe } from '@/entities/recipe'
+import { normalizeText as normalize } from '@/shared/lib'
 
 export interface RecipeFilters {
   term: string
   category: string
   area: string
-}
-
-// "açúcar" acha "acucar", e "CHICKEN" acha "chicken"
-function normalize(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
 }
 
 // Filtra o catálogo no cliente. É o que permite passar do limite de 25
