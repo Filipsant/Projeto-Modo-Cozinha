@@ -1,30 +1,29 @@
 @use '@/shared/styles' as *;
 
+// No design a foto fica dentro do cartão, com margem e cantos próprios
 .card {
-  gap: 0;
-  padding: 0;
-  overflow: hidden;
+  gap: $space-xs;
+  padding: $space-sm;
 }
 
 .media {
   position: relative;
+  margin-bottom: $space-xs;
 }
 
 .photo {
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
+  border-radius: $radius-button;
   object-fit: cover;
 }
 
-.time {
+.origin {
   position: absolute;
   top: $space-xs;
   left: $space-xs;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px $space-xs;
+  padding: 2px $space-xs;
   border-radius: $radius-pill;
   background-color: var(--color-surface);
   color: var(--color-text);
@@ -38,35 +37,11 @@
   right: $space-xs;
 }
 
-// O corpo é uma coluna: o botão fica colado no rodapé mesmo com textos de
-// tamanhos diferentes, e todos os cartões da grade terminam alinhados
-.body {
+.heading {
   display: flex;
-  flex: 1;
-  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: $space-xs;
-  padding: $space-sm;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $space-xs;
-}
-
-.tag {
-  padding: 2px $space-xs;
-  border-radius: $radius-pill;
-  background-color: var(--color-divider);
-  color: var(--color-text-muted);
-  white-space: nowrap;
-
-  @include text-small;
-}
-
-.tagCategory {
-  background-color: var(--color-primary-soft);
-  color: var(--color-primary-hover);
 }
 
 .name {
@@ -78,52 +53,34 @@
   text-decoration: none;
 
   &:hover {
-    color: var(--color-primary);
+    color: var(--color-primary-text);
   }
 }
 
-.description {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+.time {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+  padding-top: 4px;
   color: var(--color-text-muted);
+  white-space: nowrap;
 
   @include text-small;
+  @include tabular-numbers;
 }
 
-.ingredients {
-  display: flex;
-  flex-direction: column;
-  gap: $space-xs;
-  padding: $space-xs;
-  border-radius: $radius-button;
-  background-color: var(--color-canvas);
-}
-
-.ingredientsLabel {
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-
-  @include text-small;
-}
-
-.ingredientsList {
+.meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-}
-
-.ingredient {
-  padding: 2px $space-xs;
-  border: 1px solid var(--color-border);
-  border-radius: $radius-button;
-  background-color: var(--color-surface);
+  gap: $space-xs;
+  color: var(--color-text-muted);
 
   @include text-small;
 }
 
+// Colado no rodapé: os cartões da grade terminam alinhados
 .cook {
+  width: 100%;
   margin-top: auto;
 }

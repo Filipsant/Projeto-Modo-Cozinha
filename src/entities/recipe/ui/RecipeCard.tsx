@@ -1,93 +1,78 @@
 import { ChefHat, Timer } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
-import { BASE_SERVINGS } from '@/shared/config'
 import { useTranslation } from '@/shared/i18n'
 import { ButtonLink, Card } from '@/shared/ui'
-import { translateIngredient } from '../lib/translateIngredient'
-import { ingredientKey, uniqueIngredients } from '../lib/uniqueIngredients'
 import type { Recipe } from '../model/recipe.types'
 import styles from './RecipeCard.module.scss'
 import { useDurationLabel } from './useDurationLabel'
 
-const MAIN_INGREDIENTS = 3
-
 interface RecipeCardProps {
   recipe: Recipe
-  /** Botões extras, como o favorito. O card não sabe favoritar: quem sabe é a feature. */
+  /** Botões sobre a foto, como o coração. O card não sabe favoritar: quem sabe é a feature. */
   actions?: ReactNode
+  /** Botão roxo cheio. Nos favoritos só o primeiro cartão tem, como no design. */
+  highlighted?: boolean
 }
 
-export function RecipeCard({ recipe, actions }: RecipeCardProps) {
-  const { t, i18n } = useTranslation()
-  const language = i18n.resolvedLanguage ?? 'pt-BR'
+// O cartão de receita da home e dos favoritos: foto com a origem, nome, tempo,
+// ingredientes e dificuldade, e o botão de cozinhar
+export function RecipeCard({ recipe, actions, highlighted = false }: RecipeCardProps) {
+  const { t } = useTranslation()
   const durationLabel = useDurationLabel()
-  const tempo = durationLabel(recipe.estimatedMinutes, { estimated: true })
-  const distinct = uniqueIngredients(recipe.ingredients)
-  const main = distinct.slice(0, MAIN_INGREDIENTS)
-  const rest = distinct.length - main.length
+  // Favorita antiga pode chegar sem detalhes: aí tempo e dificuldade ficam de fora
+  const hasDetails = recipe.steps.length > 0
 
   return (
     <Card className={styles.card}>
       <div className={styles.media}>
         <img
           className={styles.photo}
-          src={`${recipe.thumbnail}/preview`}
+          src={`${recipe.thumbnail}/medium`}
           alt=""
-          width={640}
-          height={360}
+          width={500}
+          height={281}
           loading="lazy"
         />
 
-        <span className={styles.time}>
-          <Timer size={14} aria-hidden="true" />
-          {tempo}
-        </span>
+        {recipe.area ? (
+          <span className={styles.origin}>{t(`areas.${recipe.area}`, recipe.area)}</span>
+        ) : null}
 
         {actions ? <div className={styles.actions}>{actions}</div> : null}
       </div>
 
-      <div className={styles.body}>
-        <p className={styles.tags}>
-          {recipe.category ? (
-            <span className={`${styles.tag} ${styles.tagCategory}`}>
-              {t(`categories.${recipe.category}`, recipe.category)}
-            </span>
-          ) : null}
-          <span className={styles.tag}>{t(`recipe.difficulty_${recipe.difficulty}`)}</span>
-          <span className={styles.tag}>{t('common.servings', { count: BASE_SERVINGS })}</span>
-        </p>
-
+      <div className={styles.heading}>
         <h3 className={styles.name}>
           <Link to={`/receita/${recipe.id}`} className={styles.nameLink}>
             {recipe.name}
           </Link>
         </h3>
 
-        {recipe.steps[0] ? <p className={styles.description}>{recipe.steps[0]}</p> : null}
-
-        {main.length > 0 ? (
-          <div className={styles.ingredients}>
-            <span className={styles.ingredientsLabel}>{t('recipe.mainIngredients')}</span>
-            <span className={styles.ingredientsList}>
-              {main.map((ingredient) => (
-                <span key={ingredientKey(ingredient)} className={styles.ingredient}>
-                  {translateIngredient(ingredient.name, language)}
-                </span>
-              ))}
-              {rest > 0 ? <span className={styles.ingredient}>+{rest}</span> : null}
-            </span>
-          </div>
+        {hasDetails ? (
+          <span className={styles.time}>
+            <Timer size={16} aria-hidden="true" />
+            {durationLabel(recipe.estimatedMinutes, { estimated: true })}
+          </span>
         ) : null}
-
-        <ButtonLink
-          to={`/receita/${recipe.id}/cozinhar`}
-          className={styles.cook}
-          icon={<ChefHat size={18} aria-hidden="true" />}
-        >
-          {t('recipe.cookMode')}
-        </ButtonLink>
       </div>
+
+      {hasDetails ? (
+        <p className={styles.meta}>
+          <span>{t('common.ingredients', { count: recipe.ingredients.length })}</span>
+          <span aria-hidden="true">•</span>
+          <span>{t(`recipe.difficulty_${recipe.difficulty}`)}</span>
+        </p>
+      ) : null}
+
+      <ButtonLink
+        to={`/receita/${recipe.id}/cozinhar`}
+        variant={highlighted ? 'primary' : 'secondary'}
+        className={styles.cook}
+        icon={<ChefHat size={18} aria-hidden="true" />}
+      >
+        {t('recipe.cookNow')}
+      </ButtonLink>
     </Card>
   )
 }

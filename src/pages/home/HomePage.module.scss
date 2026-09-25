@@ -10,6 +10,13 @@
   padding: $space-lg;
 }
 
+// O selo da interface e, quando o app já está guardado, o de cozinhar offline
+.selos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-xs;
+}
+
 .selo {
   display: inline-flex;
   align-items: center;
@@ -18,7 +25,7 @@
   padding: $space-xs $space-sm;
   border-radius: $radius-pill;
   background-color: var(--color-primary-soft);
-  color: var(--color-primary-hover);
+  color: var(--color-primary-text);
 
   @include text-small;
 }

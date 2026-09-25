@@ -20,7 +20,7 @@
   height: $space-xl;
   border-radius: $radius-pill;
   background-color: var(--color-primary-soft);
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .heading {
@@ -53,7 +53,7 @@
 .idle,
 .paused {
   background-color: var(--color-primary-soft);
-  color: var(--color-primary-hover);
+  color: var(--color-primary-text);
 }
 
 .running {
@@ -63,7 +63,8 @@
 
 .done {
   background-color: var(--color-danger);
-  color: var(--color-on-primary);
+  // Cor do cartão sobre o vermelho: branco no claro, escuro no tema escuro
+  color: var(--color-surface);
 }
 
 // O relógio grande à esquerda; os botões redondos à direita, como no design
@@ -74,11 +75,11 @@
   gap: $space-sm;
   padding: $space-sm $space-md;
   border-radius: $radius-card;
-  background-color: var(--color-canvas);
+  background-color: var(--color-surface-inset);
 }
 
 .clock {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
   font-size: 3rem;
   line-height: 1.1;
   font-weight: $weight-bold;

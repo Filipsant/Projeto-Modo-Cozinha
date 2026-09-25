@@ -17,14 +17,14 @@
   gap: 2px;
   padding: $space-sm $space-xs;
   border-radius: $radius-button;
-  background-color: var(--color-canvas);
+  background-color: var(--color-surface-inset);
   text-align: center;
 }
 
 .icon {
   display: flex;
   margin-bottom: 4px;
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .warm {

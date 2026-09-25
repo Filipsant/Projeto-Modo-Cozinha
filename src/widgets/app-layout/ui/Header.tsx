@@ -2,9 +2,11 @@ import { ChefHat } from 'lucide-react'
 import { Link, NavLink } from 'react-router'
 import { LanguageSwitcher } from '@/features/language-switcher'
 import { usePendingCount } from '@/features/shopping-list'
+import { ThemeToggle } from '@/features/theme-switcher'
 import { useTranslation } from '@/shared/i18n'
 import { ButtonLink } from '@/shared/ui'
 import { navItems } from '../model/navItems'
+import { ConnectionStatus } from './ConnectionStatus'
 import styles from './Header.module.scss'
 
 export function Header() {
@@ -44,6 +46,8 @@ export function Header() {
         </nav>
 
         <div className={styles.actions}>
+          <ConnectionStatus />
+          <ThemeToggle />
           <LanguageSwitcher />
           <ButtonLink to="/">{t('nav.startCooking')}</ButtonLink>
         </div>

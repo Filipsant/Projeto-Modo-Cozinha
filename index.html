@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -17,6 +18,17 @@
       rel="stylesheet"
     />
     <title>Modo Cozinha</title>
+    <script>
+      // Aplica o tema escolhido antes do CSS pintar a tela: quem usa o escuro não
+      // vê um clarão branco ao abrir o app. Mesma chave do store do tema.
+      try {
+        var saved = JSON.parse(localStorage.getItem('modo-cozinha:theme') || 'null')
+        var theme = saved && saved.state && saved.state.preference
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme
+      } catch (error) {
+        // Sem localStorage (modo privado antigo): segue o tema do sistema
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

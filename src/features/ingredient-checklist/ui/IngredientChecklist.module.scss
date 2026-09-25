@@ -21,7 +21,7 @@
 }
 
 .titleIcon {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .progress {
@@ -40,7 +40,7 @@
   border: none;
   border-radius: $radius-button;
   background: none;
-  color: var(--color-primary);
+  color: var(--color-primary-text);
   font-weight: $weight-semibold;
   cursor: pointer;
 

@@ -1,5 +1,5 @@
 import { ArrowRight, Heart, SearchX } from 'lucide-react'
-import { RecipeCardCompact } from '@/entities/recipe'
+import { RecipeCard } from '@/entities/recipe'
 import { FavoriteButton, type FavoriteRecipe } from '@/features/favorite-recipe'
 import { useTranslation } from '@/shared/i18n'
 import { Button, ButtonLink, EmptyState } from '@/shared/ui'
@@ -50,7 +50,7 @@ export function FavoriteRecipes({ recipes, hasFavorites, onShowAll }: FavoriteRe
     <ul className={styles.grid} role="list">
       {recipes.map((recipe, position) => (
         <li key={recipe.id} className={styles.item}>
-          <RecipeCardCompact
+          <RecipeCard
             recipe={recipe}
             // Só o primeiro cartão leva o botão roxo cheio, como no design
             highlighted={position === 0}

@@ -1,0 +1,14 @@
+@use '@/shared/styles' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-xs $space-sm;
+  border-radius: $radius-pill;
+  background-color: var(--color-primary-tint);
+  color: var(--color-primary-text);
+  border: 1px solid var(--color-primary-soft);
+
+  @include text-small;
+}

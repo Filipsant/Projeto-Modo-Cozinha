@@ -208,6 +208,21 @@ export const en: typeof ptBR = {
       other: 'Other',
     },
   },
+  theme: {
+    toDark: 'Switch to dark theme',
+    toLight: 'Switch to light theme',
+  },
+  connection: {
+    online: 'Online',
+    offline: 'Offline',
+    offlineBanner:
+      'No internet. Recipes you already opened, your favorites and the shopping list still work.',
+  },
+  pwa: {
+    offlineReady: 'Ready to cook offline',
+    updateAvailable: 'A new version of Kitchen Mode is available.',
+    update: 'Update',
+  },
   favorites: {
     title: 'Favorite recipes',
     savedCount_zero: 'none saved',

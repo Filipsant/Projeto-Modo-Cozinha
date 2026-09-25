@@ -11,7 +11,7 @@
 // ---------------------------------------------------------------------------
 .topbar {
   border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-surface);
+  background-color: var(--color-header);
 }
 
 .topbarInner {
@@ -98,7 +98,7 @@
 }
 
 .stepCurrent {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 
   @include text-title;
 }
@@ -107,7 +107,7 @@
   padding: 2px $space-sm;
   border-radius: $radius-pill;
   background-color: var(--color-primary-soft);
-  color: var(--color-primary-hover);
+  color: var(--color-primary-text);
   font-weight: $weight-semibold;
 
   @include text-small;
@@ -216,7 +216,7 @@
 }
 
 .ingredientsIcon {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .ingredientsList {
@@ -270,7 +270,7 @@
   height: 5rem;
   border-radius: $radius-pill;
   background-color: var(--color-primary-soft);
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .doneTitle {

@@ -50,7 +50,7 @@
 }
 
 .crumb {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .crumbCurrent {
@@ -70,7 +70,7 @@
   padding: 4px $space-sm;
   border-radius: $radius-pill;
   background-color: var(--color-primary-tint);
-  color: var(--color-primary-hover);
+  color: var(--color-primary-text);
 
   @include text-small;
 }

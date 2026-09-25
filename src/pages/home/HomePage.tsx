@@ -6,6 +6,7 @@ import {
   useBrowseParams,
   useRecipeResults,
 } from '@/features/browse-recipes'
+import { OfflineReadyBadge } from '@/features/app-update'
 import { useTranslation } from '@/shared/i18n'
 import { Callout, Card } from '@/shared/ui'
 import { RecipeResults } from '@/widgets/recipe-results'
@@ -19,10 +20,13 @@ export function HomePage() {
   return (
     <div className={styles.pagina}>
       <Card className={styles.hero}>
-        <p className={styles.selo}>
-          <Hand size={14} aria-hidden="true" />
-          {t('home.badge')}
-        </p>
+        <div className={styles.selos}>
+          <p className={styles.selo}>
+            <Hand size={14} aria-hidden="true" />
+            {t('home.badge')}
+          </p>
+          <OfflineReadyBadge />
+        </div>
 
         <h1 className={styles.titulo}>{t('home.title')}</h1>
         <p className={styles.descricao}>{t('home.description')}</p>

@@ -35,4 +35,9 @@ void i18next
     react: { useSuspense: false },
   })
 
+// O <html lang> acompanha o idioma: o leitor de tela pronuncia o texto certo
+i18next.on('languageChanged', (language) => {
+  document.documentElement.lang = language
+})
+
 export { i18next }

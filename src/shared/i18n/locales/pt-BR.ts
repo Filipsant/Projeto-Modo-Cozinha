@@ -208,6 +208,21 @@ export const ptBR = {
       other: 'Outros',
     },
   },
+  theme: {
+    toDark: 'Ativar tema escuro',
+    toLight: 'Ativar tema claro',
+  },
+  connection: {
+    online: 'Online',
+    offline: 'Offline',
+    offlineBanner:
+      'Sem internet. As receitas que você já abriu, os favoritos e a lista de compras continuam funcionando.',
+  },
+  pwa: {
+    offlineReady: 'Pronto para cozinhar offline',
+    updateAvailable: 'Nova versão do Modo Cozinha disponível.',
+    update: 'Atualizar',
+  },
   favorites: {
     title: 'Receitas Favoritas',
     savedCount_zero: 'nenhuma salva',

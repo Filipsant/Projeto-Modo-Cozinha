@@ -1,0 +1,46 @@
+@use '@/shared/styles' as *;
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px $space-sm;
+  border: 1px solid var(--color-border);
+  border-radius: $radius-pill;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+
+  @include text-small;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: $radius-pill;
+  background-color: var(--color-success);
+}
+
+// Cor e texto mudam juntos: quem não distingue cores lê "Offline" (critério 1.4.1)
+.offline {
+  border-color: var(--color-warm);
+  background-color: var(--color-warm-soft);
+  color: var(--color-warm);
+
+  .dot {
+    background-color: var(--color-warm);
+  }
+}
+
+.banner {
+  padding: $space-xs $space-md;
+  background-color: var(--color-warm-soft);
+  color: var(--color-warm);
+  font-weight: $weight-medium;
+  text-align: center;
+
+  @include text-small;
+}
+
+.bannerHidden {
+  @include visually-hidden;
+}

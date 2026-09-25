@@ -20,7 +20,7 @@
 
 // "MERCADO INTELIGENTE" em cima do título, como no design
 .eyebrow {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
   font-weight: $weight-semibold;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -35,7 +35,7 @@
   padding: 4px $space-sm;
   border-radius: $radius-pill;
   background-color: var(--color-primary-soft);
-  color: var(--color-primary-hover);
+  color: var(--color-primary-text);
   font-weight: $weight-semibold;
 
   @include text-small;
@@ -83,7 +83,7 @@
 }
 
 .percent {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
   font-weight: $weight-semibold;
 }
 

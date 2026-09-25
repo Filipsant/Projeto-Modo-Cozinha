@@ -1,38 +1,56 @@
 import { screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { renderWithProviders } from '@/shared/testing'
 import type { Recipe } from '../model/recipe.types'
 import { RecipeCard } from './RecipeCard'
 
 const bolo: Recipe = {
-  id: '1',
-  name: 'Bolo',
+  id: '7',
+  name: 'Bolo de Cenoura',
   thumbnail: 'foto.jpg',
+  area: 'Brazil',
   instructions: '',
-  steps: ['Mix.'],
-  // Há receitas que repetem o ingrediente: açúcar na massa e na cobertura
+  steps: ['Mix.', 'Bake.'],
   ingredients: [
-    { name: 'Sugar', measure: '100g' },
+    { name: 'Carrots', measure: '3' },
     { name: 'Flour', measure: '200g' },
-    { name: 'Sugar', measure: '2 tbs' },
-    { name: 'Eggs', measure: '3' },
-    { name: 'Butter', measure: '50g' },
   ],
   tags: [],
-  estimatedMinutes: 30,
-  difficulty: 'easy',
+  estimatedMinutes: 45,
+  difficulty: 'medium',
   methods: ['oven'],
 }
 
 describe('RecipeCard', () => {
-  it('mostra cada ingrediente principal uma vez só, sem aviso de chave repetida', () => {
-    const erro = vi.spyOn(console, 'error').mockImplementation(() => {})
-
+  it('mostra origem, nome, tempo, ingredientes e dificuldade', () => {
     renderWithProviders(<RecipeCard recipe={bolo} />)
 
-    expect(screen.getAllByText('Açúcar')).toHaveLength(1)
-    // Açúcar, Farinha de trigo e Ovos à vista; sobra só a manteiga
-    expect(screen.getByText('+1')).toBeInTheDocument()
-    expect(erro).not.toHaveBeenCalled()
+    expect(screen.getByText('Brasil')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Bolo de Cenoura' })).toHaveAttribute(
+      'href',
+      '/receita/7',
+    )
+    expect(screen.getByText('~45 min')).toBeInTheDocument()
+    expect(screen.getByText('2 ingredientes')).toBeInTheDocument()
+    expect(screen.getByText('Médio')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /cozinhar agora/i })).toHaveAttribute(
+      'href',
+      '/receita/7/cozinhar',
+    )
+  })
+
+  it('recebe os botões de fora, como o favorito', () => {
+    renderWithProviders(
+      <RecipeCard recipe={bolo} actions={<button type="button">Salvar</button>} />,
+    )
+
+    expect(screen.getByRole('button', { name: 'Salvar' })).toBeInTheDocument()
+  })
+
+  it('esconde tempo e dificuldade quando a receita ainda não tem os detalhes', () => {
+    renderWithProviders(<RecipeCard recipe={{ ...bolo, steps: [], estimatedMinutes: 0 }} />)
+
+    expect(screen.queryByText('~45 min')).not.toBeInTheDocument()
+    expect(screen.queryByText('Médio')).not.toBeInTheDocument()
   })
 })

@@ -8,7 +8,7 @@
   padding: $space-md;
   border: 1px solid var(--color-divider);
   border-radius: $radius-card;
-  background-color: var(--color-callout);
+  background-color: var(--color-surface-inset);
 }
 
 .icon {
@@ -20,7 +20,7 @@
   height: $space-xl;
   border-radius: $radius-pill;
   background-color: var(--color-primary-soft);
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .title {

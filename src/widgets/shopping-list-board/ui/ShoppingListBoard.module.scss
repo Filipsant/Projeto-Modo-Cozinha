@@ -36,7 +36,7 @@
   height: $space-xl;
   border-radius: $radius-button;
   background-color: var(--color-divider);
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .groupTitles {
@@ -53,7 +53,7 @@
   text-decoration: none;
 
   &:hover {
-    color: var(--color-primary);
+    color: var(--color-primary-text);
   }
 }
 
@@ -68,7 +68,7 @@
   padding: 2px $space-xs;
   border-radius: $radius-pill;
   background-color: var(--color-primary-soft);
-  color: var(--color-primary-hover);
+  color: var(--color-primary-text);
   font-weight: $weight-semibold;
   white-space: nowrap;
 
@@ -87,7 +87,7 @@
   padding: $space-sm $space-md;
   border: 1px solid var(--color-divider);
   border-radius: $radius-card;
-  background-color: var(--color-callout);
+  background-color: var(--color-surface-inset);
 }
 
 .boughtSummary {
@@ -104,7 +104,7 @@
 }
 
 .boughtIcon {
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 }
 
 .boughtTitle {

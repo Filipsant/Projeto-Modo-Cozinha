@@ -2,13 +2,32 @@
 
 App de receitas que ajusta as porções, converte as medidas, gera a lista de compras e guia o preparo passo a passo com o celular na bancada.
 
-> 🚧 **Em desenvolvimento.** Etapa atual: 0, planejamento e setup.
+> ✅ **Roadmap concluído**: etapas 0 a 7.
 
 **Deploy:** _em breve_
 
+## O que o app faz
+
+- **Busca no catálogo inteiro:** as 790 receitas da API, filtradas por nome, ingrediente, categoria e origem. A busca da TheMealDB para em 25 resultados; o app contorna isso montando o catálogo letra por letra.
+- **Detalhe da receita:**
+  - porções de 1 a 20, guardadas na URL (`?porcoes=6`)
+  - medidas convertidas para g/ml ou mantidas nas unidades originais, em frações de medidor ("¾ xícara")
+  - lista de ingredientes para marcar
+  - passos com o tempo e os ingredientes que cada um cita
+- **Modo Cozinha:**
+  - um passo por vez, em letra grande, com botões de 64 px e as setas do teclado
+  - timers por passo que continuam correndo ao avançar e tocam alarme
+  - a tela fica acesa enquanto você cozinha
+- **Favoritos:** busca, ordenação e "Desfazer" ao remover.
+- **Lista de compras:** agrupada por receita ou por corredor do mercado, com progresso e compartilhamento em texto.
+- **PWA:** instala no celular e abre sem internet as receitas já vistas, os favoritos e a lista.
+- **Temas e idiomas:** tema claro e escuro, português e inglês.
+
+A API não informa tempo de preparo, dificuldade, método nem o corredor de cada ingrediente. O app deduz esses dados do texto da receita, e a interface mostra as estimativas com "~". O leitor de medidas entende 97,9% das 8.152 medidas reais do catálogo.
+
 ## Stack
 
-React 19, TypeScript, Vite, Sass (CSS Modules), React Router, TanStack Query, Zustand, Zod, Vitest, Testing Library e MSW. As receitas vêm da API pública [TheMealDB](https://www.themealdb.com).
+React 19, TypeScript, Vite, Sass (CSS Modules), React Router, TanStack Query, Zustand, Zod, react-i18next, vite-plugin-pwa (Workbox), Vitest, Testing Library e MSW. As receitas vêm da API pública [TheMealDB](https://www.themealdb.com).
 
 ## Como rodar
 
@@ -29,6 +48,13 @@ npm run dev
 | `npm test`           | Roda os testes uma vez                                   |
 | `npm run test:watch` | Roda os testes a cada alteração                          |
 | `npm run coverage`   | Roda os testes com relatório de cobertura                |
+| `npm run preview`    | Serve o build de `dist/`, com o service worker ativo     |
+
+O service worker só existe no build, para o cache não atrapalhar o desenvolvimento. Para testar o modo offline:
+
+1. Rode `npm run build && npm run preview`.
+2. Abra o app e uma receita.
+3. Marque "Offline" na aba Network do DevTools e recarregue a página.
 
 ## Arquitetura
 
@@ -64,7 +90,7 @@ Cada funcionalidade nasce numa issue, é feita numa branch (`feat/rf01-busca`) c
 | Constantes          | UPPER_SNAKE_CASE                        | `BASE_SERVINGS`                           |
 | Estilos             | CSS Modules com o nome do componente    | `FavoriteButton.module.scss`              |
 | Testes              | Mesmo nome do arquivo testado + `.test` | `parseMeasure.test.ts`                    |
-| Textos da interface | Português do Brasil                     | "Adicionar à lista"                       |
+| Textos da interface | Chaves do i18n, em português e inglês   | `t('shopping.add')`                       |
 
 ## Licença
 

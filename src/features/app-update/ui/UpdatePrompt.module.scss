@@ -1,0 +1,11 @@
+@use '@/shared/styles' as *;
+
+// Canto inferior esquerdo: o "Desfazer" dos favoritos fica no centro e o
+// "Link copiado" na direita, então os avisos nunca se cobrem
+.region {
+  position: fixed;
+  bottom: $space-md;
+  left: $space-md;
+  z-index: 20;
+  width: min(26rem, calc(100vw - #{$space-md * 2}));
+}

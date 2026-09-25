@@ -33,18 +33,19 @@
   }
 }
 
+// Lilás no claro e roxo fechado (#322b4d) no escuro, como o "Adicionar à Lista de Compras"
 .secondary {
-  background-color: var(--color-primary-tint);
-  color: var(--color-primary-hover);
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-text);
 
   &:hover:not(:disabled) {
-    background-color: var(--color-primary-soft);
+    background-color: var(--color-primary-tint);
   }
 }
 
 .ghost {
   background-color: transparent;
-  color: var(--color-primary);
+  color: var(--color-primary-text);
 
   &:hover:not(:disabled) {
     background-color: var(--color-primary-tint);

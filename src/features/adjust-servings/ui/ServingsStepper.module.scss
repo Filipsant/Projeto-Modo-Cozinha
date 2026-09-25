@@ -9,7 +9,7 @@
   padding: 4px;
   border: 1px solid var(--color-border);
   border-radius: $radius-pill;
-  background-color: var(--color-canvas);
+  background-color: var(--color-surface-inset);
 }
 
 .button {
@@ -48,7 +48,7 @@
 // Largura fixa: o número passar de 9 para 10 não empurra os botões
 .value {
   min-width: 2ch;
-  color: var(--color-primary);
+  color: var(--color-primary-text);
   font-weight: $weight-bold;
   text-align: center;
 

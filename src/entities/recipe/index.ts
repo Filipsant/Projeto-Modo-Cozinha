@@ -25,7 +25,6 @@ export type {
   RecipeSummary,
 } from './model/recipe.types'
 export { RecipeCard } from './ui/RecipeCard'
-export { RecipeCardCompact } from './ui/RecipeCardCompact'
 export { RecipeHero } from './ui/RecipeHero'
 export { RecipeStats } from './ui/RecipeStats'
 export { RecipeSteps } from './ui/RecipeSteps'

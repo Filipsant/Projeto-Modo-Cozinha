@@ -28,8 +28,9 @@
   display: flex;
   flex: 1 1 auto;
   padding: 4px;
+  border: 1px solid var(--color-divider);
   border-radius: $radius-pill;
-  background-color: var(--color-divider);
+  background-color: var(--color-surface-inset);
 }
 
 .option {
