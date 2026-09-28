@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import { API_BASE_URL } from '@/shared/config'
+import { API_BASE_URL, TRANSLATE_URL } from '@/shared/config'
 import { fixtures } from '../fixtures'
 
 // Respondem com as respostas reais salvas em fixtures/. Um teste que precise de
@@ -29,4 +29,16 @@ export const handlers = [
   http.get(`${API_BASE_URL}/list.php`, () => HttpResponse.json(fixtures.areas)),
 
   http.get(`${API_BASE_URL}/filter.php`, () => HttpResponse.json(fixtures.filterSeafood)),
+
+  // Os passos da receita dos testes têm a tradução real gravada. Qualquer outro
+  // texto volta igual, como se já estivesse em português
+  http.get(TRANSLATE_URL, ({ request }) => {
+    const text = new URL(request.url).searchParams.get('q') ?? ''
+    const [sentences] = fixtures.translateTeriyaki
+    const recorded = sentences.map(([, original]) => original).join('')
+
+    return HttpResponse.json(
+      text === recorded ? fixtures.translateTeriyaki : [[[text, text]], null, 'en'],
+    )
+  }),
 ]

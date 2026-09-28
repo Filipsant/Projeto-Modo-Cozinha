@@ -1,4 +1,4 @@
-import { ArrowRight, ChefHat, HandPlatter, Sparkles, UtensilsCrossed } from 'lucide-react'
+import { ArrowRight, ChefHat, HandPlatter, Sparkles, Users, UtensilsCrossed } from 'lucide-react'
 import { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router'
 import {
@@ -18,15 +18,15 @@ import { AddToShoppingList } from '@/features/shopping-list'
 import { QuickTimer, TimerAlarm } from '@/features/step-timer'
 import { BASE_SERVINGS } from '@/shared/config'
 import { useTranslation } from '@/shared/i18n'
-import { ButtonLink, Callout, Card } from '@/shared/ui'
+import { ButtonLink, Callout } from '@/shared/ui'
 import styles from './RecipeDetails.module.scss'
 
 interface RecipeDetailsProps {
   recipe: Recipe
 }
 
-// Esquerda: o que a pessoa decide antes de começar. Direita: o que ela usa
-// enquanto cozinha, ingredientes e passos.
+// Esquerda: a receita e as ações, como começar a cozinhar. Direita: o que ela usa
+// enquanto cozinha, os ingredientes (com porções e medidas no mesmo cartão) e os passos.
 export function RecipeDetails({ recipe }: RecipeDetailsProps) {
   const { t } = useTranslation()
   const [servings] = useServings()
@@ -70,19 +70,6 @@ export function RecipeDetails({ recipe }: RecipeDetailsProps) {
           <RecipeHero recipe={recipe} />
           <RecipeStats recipe={recipe} />
 
-          <Card className={styles.yield}>
-            <div className={styles.yieldRow}>
-              <div className={styles.yieldText}>
-                <h2 id="titulo-rendimento" className={styles.yieldTitle}>
-                  {t('recipeDetails.yieldTitle')}
-                </h2>
-                <p className={styles.yieldDescription}>{t('recipeDetails.yieldDescription')}</p>
-              </div>
-              <ServingsStepper labelledBy="titulo-rendimento" />
-            </div>
-            <MeasureSystemToggle className={styles.system} />
-          </Card>
-
           <ButtonLink
             to={`/receita/${recipe.id}/cozinhar${cookingSearch}`}
             size="cooking"
@@ -93,7 +80,7 @@ export function RecipeDetails({ recipe }: RecipeDetailsProps) {
             <ArrowRight size={22} aria-hidden="true" />
           </ButtonLink>
 
-          <AddToShoppingList recipe={recipe} servings={servings} />
+          <AddToShoppingList recipe={recipe} servings={servings} system={system} />
 
           <Callout
             className={styles.tip}
@@ -110,6 +97,7 @@ export function RecipeDetails({ recipe }: RecipeDetailsProps) {
             ingredients={recipe.ingredients}
             servings={servings}
             system={system}
+            controls={<RecipeAdjustments />}
           />
           <RecipeSteps recipe={recipe} />
 
@@ -130,6 +118,27 @@ export function RecipeDetails({ recipe }: RecipeDetailsProps) {
       {/* O timer disparado aqui também toca aqui, e leva ao passo no modo cozinha */}
       <TimerAlarm onGoToStep={goToStep} />
     </article>
+  )
+}
+
+// Porções e sistema de medidas, dentro do cartão dos ingredientes: lado a lado
+// quando cabe, um embaixo do outro no celular
+function RecipeAdjustments() {
+  const { t } = useTranslation()
+
+  return (
+    <div className={styles.adjust}>
+      <div className={styles.adjustGrid}>
+        <div className={styles.adjustItem}>
+          <span id="titulo-rendimento" className={styles.adjustLabel}>
+            <Users size={16} aria-hidden="true" />
+            {t('recipeDetails.yieldTitle')}
+          </span>
+          <ServingsStepper labelledBy="titulo-rendimento" />
+        </div>
+        <MeasureSystemToggle className={styles.system} />
+      </div>
+    </div>
   )
 }
 

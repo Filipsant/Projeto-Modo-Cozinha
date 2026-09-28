@@ -1,0 +1,18 @@
+@use '@/shared/styles' as *;
+
+// Canto superior direito, logo abaixo do cabeçalho: não cobre o idioma nem o tema
+.region {
+  position: fixed;
+  top: calc(4.5rem + env(safe-area-inset-top, 0px));
+  right: $space-md;
+  z-index: 40;
+  width: min(22rem, calc(100vw - #{$space-md * 2}));
+  animation: entrar $motion-base $ease-out;
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateX(1.5rem);
+  }
+}

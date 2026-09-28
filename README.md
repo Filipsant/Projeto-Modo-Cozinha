@@ -8,22 +8,26 @@ App de receitas que ajusta as porções, converte as medidas, gera a lista de co
 
 ## O que o app faz
 
-- **Busca no catálogo inteiro:** as 790 receitas da API, filtradas por nome, ingrediente, categoria e origem. A busca da TheMealDB para em 25 resultados; o app contorna isso montando o catálogo letra por letra.
+- **Busca no catálogo inteiro:** as 790 receitas da API, filtradas por nome, ingrediente, categoria, origem e dificuldade. A busca da TheMealDB para em 25 resultados; o app contorna isso montando o catálogo letra por letra.
 - **Detalhe da receita:**
   - porções de 1 a 20, guardadas na URL (`?porcoes=6`)
   - medidas convertidas para g/ml ou mantidas nas unidades originais, em frações de medidor ("¾ xícara")
   - lista de ingredientes para marcar
-  - passos com o tempo e os ingredientes que cada um cita
+  - passos com o tempo e os ingredientes que cada um cita, traduzidos para o português
+  - lista de compras com os ingredientes que você escolher, sem o que já tem em casa
 - **Modo Cozinha:**
   - um passo por vez, em letra grande, com botões de 64 px e as setas do teclado
   - timers por passo que continuam correndo ao avançar e tocam alarme
   - a tela fica acesa enquanto você cozinha
+  - ao concluir, volta para o início com um aviso de "Concluído!"
 - **Favoritos:** busca, ordenação e "Desfazer" ao remover.
 - **Lista de compras:** agrupada por receita ou por corredor do mercado, com progresso e compartilhamento em texto.
 - **PWA:** instala no celular e abre sem internet as receitas já vistas, os favoritos e a lista.
 - **Temas e idiomas:** tema claro e escuro, português e inglês.
 
-A API não informa tempo de preparo, dificuldade, método nem o corredor de cada ingrediente. O app deduz esses dados do texto da receita, e a interface mostra as estimativas com "~". O leitor de medidas entende 97,9% das 8.152 medidas reais do catálogo.
+A API não informa tempo de preparo, dificuldade, método nem o corredor de cada ingrediente. O app deduz esses dados do texto da receita. O leitor de medidas entende 97,9% das 8.152 medidas reais do catálogo.
+
+A TheMealDB só tem receitas em inglês. Com a interface em português, os passos são traduzidos pelo tradutor público do Google (sem chave) e guardados em cache, então a receita já vista continua traduzida offline. Sem conexão com o tradutor, os passos aparecem em inglês com um aviso. Nomes de ingredientes e medidas usam um dicionário próprio.
 
 ## Stack
 

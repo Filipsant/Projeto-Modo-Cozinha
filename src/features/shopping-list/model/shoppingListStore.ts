@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { Recipe } from '@/entities/recipe'
@@ -24,8 +25,12 @@ export interface ShoppingItem {
 interface ShoppingListState {
   recipes: ShoppingRecipe[]
   items: ShoppingItem[]
-  /** Adiciona a receita, ou só atualiza as porções se ela já estiver na lista. */
-  addRecipe: (recipe: Recipe, servings: number) => void
+  /**
+   * Adiciona a receita, ou só atualiza as porções se ela já estiver na lista.
+   * Com positions, põe na lista só esses ingredientes (as posições na receita):
+   * é a escolha feita no diálogo, e vale também para quem já estava na lista.
+   */
+  addRecipe: (recipe: Recipe, servings: number, positions?: readonly number[]) => void
   removeRecipe: (recipeId: string) => void
   toggleItem: (itemId: string) => void
   clearBought: () => void
@@ -38,8 +43,10 @@ export const useShoppingListStore = create<ShoppingListState>()(
       recipes: [],
       items: [],
 
-      addRecipe(recipe, servings) {
-        if (get().recipes.some((item) => item.id === recipe.id)) {
+      addRecipe(recipe, servings, positions) {
+        const inList = get().recipes.some((item) => item.id === recipe.id)
+
+        if (inList && !positions) {
           // Já está na lista: muda as porções e preserva o que já foi comprado
           set((state) => ({
             recipes: state.recipes.map((item) =>
@@ -50,23 +57,42 @@ export const useShoppingListStore = create<ShoppingListState>()(
           return
         }
 
+        // Nenhum ingrediente escolhido: a receita sai da lista
+        if (positions?.length === 0) {
+          get().removeRecipe(recipe.id)
+          return
+        }
+
+        const chosen = positions ? new Set(positions) : null
+        const previous = new Map(get().items.map((item) => [item.id, item]))
         const items = recipe.ingredients
           .map((ingredient, position) => ({ ingredient, position }))
-          .filter(({ ingredient }) => isShoppable(ingredient.name))
-          .map(({ ingredient, position }) => ({
-            id: `${recipe.id}:${position}`,
-            recipeId: recipe.id,
-            name: ingredient.name,
-            measure: ingredient.measure,
-            bought: false,
-          }))
+          .filter(
+            ({ ingredient, position }) =>
+              isShoppable(ingredient.name) && (!chosen || chosen.has(position)),
+          )
+          .map(({ ingredient, position }) => {
+            const id = `${recipe.id}:${position}`
+
+            return {
+              id,
+              recipeId: recipe.id,
+              name: ingredient.name,
+              measure: ingredient.measure,
+              // Mudar a escolha não desmarca o que já foi para o carrinho
+              bought: previous.get(id)?.bought ?? false,
+            }
+          })
 
         set((state) => ({
-          recipes: [
-            ...state.recipes,
-            { id: recipe.id, name: recipe.name, thumbnail: recipe.thumbnail, servings },
-          ],
-          items: [...state.items, ...items],
+          recipes: inList
+            ? state.recipes.map((item) => (item.id === recipe.id ? { ...item, servings } : item))
+            : [
+                ...state.recipes,
+                { id: recipe.id, name: recipe.name, thumbnail: recipe.thumbnail, servings },
+              ],
+          // Os itens da receita trocam de lugar juntos, e as outras receitas ficam como estão
+          items: [...state.items.filter((item) => item.recipeId !== recipe.id), ...items],
         }))
       },
 
@@ -114,6 +140,19 @@ export function usePendingCount(): number {
 export function useServingsInList(recipeId: string): number | null {
   return useShoppingListStore(
     (state) => state.recipes.find((recipe) => recipe.id === recipeId)?.servings ?? null,
+  )
+}
+
+/** As posições, na receita, dos ingredientes que estão na lista agora. */
+export function useItemPositionsInList(recipeId: string): number[] {
+  const items = useShoppingListStore((state) => state.items)
+
+  return useMemo(
+    () =>
+      items
+        .filter((item) => item.recipeId === recipeId)
+        .map((item) => Number(item.id.slice(item.id.lastIndexOf(':') + 1))),
+    [items, recipeId],
   )
 }
 

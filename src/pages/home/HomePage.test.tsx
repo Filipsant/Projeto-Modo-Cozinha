@@ -1,8 +1,9 @@
 import { screen, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
 import { describe, expect, it } from 'vitest'
+import { toRecipe } from '@/entities/recipe'
 import { API_BASE_URL } from '@/shared/config'
-import { renderWithProviders, server } from '@/shared/testing'
+import { fixtures, renderWithProviders, server } from '@/shared/testing'
 import { HomePage } from './HomePage'
 
 const ESPERA_DA_BUSCA = { timeout: 3000 }
@@ -59,5 +60,21 @@ describe('HomePage', () => {
     await user.type(screen.getByRole('searchbox'), 'chicken')
 
     await waitFor(() => expect(router.state.location.search).toBe('?q=chicken'), ESPERA_DA_BUSCA)
+  })
+
+  it('filtra pela dificuldade, como as tags dos cartões', async () => {
+    const { user, router } = renderWithProviders(<HomePage />)
+    // Nos testes, o catálogo são as 25 receitas da busca por "chicken"
+    const faceis = fixtures.searchChicken.meals
+      .map((meal) => toRecipe(meal as Parameters<typeof toRecipe>[0]))
+      .filter((recipe) => recipe.difficulty === 'easy').length
+
+    await user.click(screen.getByRole('combobox', { name: 'Dificuldade' }))
+    await user.click(await screen.findByRole('option', { name: /^Fácil/ }, ESPERA_DA_BUSCA))
+
+    expect(router.state.location.search).toBe('?dificuldade=easy')
+    expect(
+      await screen.findByText(`${faceis} receitas encontradas`, {}, ESPERA_DA_BUSCA),
+    ).toBeInTheDocument()
   })
 })

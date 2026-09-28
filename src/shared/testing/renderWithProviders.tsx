@@ -27,7 +27,16 @@ export function renderWithProviders(
 ) {
   const user = userEvent.setup()
   const queryClient = createTestQueryClient()
-  const router = createMemoryRouter([{ path, element: ui }], { initialEntries: [route] })
+  // A rota vazia recebe quem sai da tela testada, como o modo cozinha ao concluir
+  const router = createMemoryRouter(
+    path === '*'
+      ? [{ path, element: ui }]
+      : [
+          { path, element: ui },
+          { path: '*', element: null },
+        ],
+    { initialEntries: [route] },
+  )
 
   return {
     user,

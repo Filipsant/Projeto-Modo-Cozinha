@@ -1,4 +1,5 @@
 import type { Ingredient } from '../model/recipe.types'
+import { translateIngredient } from './translateIngredient'
 
 // Palavras que dizem a forma, e não o alimento: em "garlic clove" o passo
 // costuma falar só "garlic", então é por ela que procuramos
@@ -79,33 +80,135 @@ export interface StepSegment {
   ingredient: boolean
 }
 
-/** Corta o texto do passo em pedaços, marcando onde cada ingrediente aparece. */
-export function highlightIngredients(step: string, ingredients: Ingredient[]): StepSegment[] {
-  const text = step.toLowerCase()
-  const heads = headsOf(ingredients)
-  const phrases = ingredients
-    .map((ingredient) => matchedPhrase(text, ingredient, heads))
-    .filter((phrase): phrase is string => phrase !== null)
-    // O mais longo primeiro: "soy sauce" inteiro, e não só "sauce"
-    .sort((a, b) => b.length - a.length)
+/**
+ * Corta o texto do passo em pedaços, marcando onde cada ingrediente aparece.
+ * Com o passo traduzido (language 'pt'), procura os nomes do dicionário em português.
+ */
+export function highlightIngredients(
+  step: string,
+  ingredients: Ingredient[],
+  language: 'en' | 'pt' = 'en',
+): StepSegment[] {
+  const alternatives =
+    language === 'pt' ? portugueseAlternatives(ingredients) : englishAlternatives(step, ingredients)
 
-  if (phrases.length === 0) return [{ text: step, ingredient: false }]
+  if (alternatives.length === 0) return [{ text: step, ingredient: false }]
 
-  const alternatives = [...new Set(phrases)].map(pluralPattern).join('|')
-  const pattern = new RegExp(`\\b(?:${alternatives})\\b`, 'gi')
+  // A busca corre no texto sem acento e em minúsculas, que tem o mesmo tamanho
+  // do original: as posições achadas lá cortam o texto de verdade
+  const pattern = new RegExp(`\\b(?:${alternatives.join('|')})\\b`, 'g')
   const segments: StepSegment[] = []
   let cursor = 0
 
-  for (const match of step.matchAll(pattern)) {
+  for (const match of fold(step).matchAll(pattern)) {
+    const end = match.index + match[0].length
+
     if (match.index > cursor)
       segments.push({ text: step.slice(cursor, match.index), ingredient: false })
-    segments.push({ text: match[0], ingredient: true })
-    cursor = match.index + match[0].length
+    segments.push({ text: step.slice(match.index, end), ingredient: true })
+    cursor = end
   }
 
   if (cursor < step.length) segments.push({ text: step.slice(cursor), ingredient: false })
 
   return segments
+}
+
+function englishAlternatives(step: string, ingredients: Ingredient[]): string[] {
+  const text = step.toLowerCase()
+  const heads = headsOf(ingredients)
+  const phrases = ingredients
+    .map((ingredient) => matchedPhrase(text, ingredient, heads))
+    .filter((phrase): phrase is string => phrase !== null)
+
+  // O mais longo primeiro: "soy sauce" inteiro, e não só "sauce"
+  return [...new Set(phrases.map(fold))].sort((a, b) => b.length - a.length).map(pluralPattern)
+}
+
+// Palavras que sozinhas não dizem qual é o ingrediente: "de" em "molho de soja",
+// ou "picado" em "alho picado"
+const PORTUGUESE_FILLERS = new Set([
+  'a',
+  'as',
+  'com',
+  'da',
+  'das',
+  'de',
+  'do',
+  'dos',
+  'e',
+  'em',
+  'o',
+  'os',
+  'ou',
+  'para',
+  'po',
+  'sem',
+  'branca',
+  'branco',
+  'cozida',
+  'cozido',
+  'extra',
+  'fatiada',
+  'fatiado',
+  'fresca',
+  'fresco',
+  'grande',
+  'media',
+  'medio',
+  'moida',
+  'moido',
+  'pequena',
+  'pequeno',
+  'picada',
+  'picado',
+  'preta',
+  'preto',
+  'ralada',
+  'ralado',
+  'seca',
+  'seco',
+  'verde',
+  'vermelha',
+  'vermelho',
+  'virgem',
+])
+
+// O nome inteiro ("molho de soja") e cada palavra que identifica o ingrediente
+// ("frango" em "peito de frango"), aceitando o plural: "peitos de frango"
+function portugueseAlternatives(ingredients: Ingredient[]): string[] {
+  const phrases = ingredients.flatMap((ingredient) => {
+    const words = fold(translateIngredient(ingredient.name, 'pt-BR')).split(/\s+/).filter(Boolean)
+    const keywords = words.filter((word) => word.length >= 3 && !PORTUGUESE_FILLERS.has(word))
+
+    return [words, ...keywords.map((word) => [word])]
+  })
+
+  return [...new Set(phrases.map((words) => words.map(portuguesePlural).join('\\s+')))].sort(
+    (a, b) => b.length - a.length,
+  )
+}
+
+function portuguesePlural(word: string): string {
+  const escaped = escapeRegExp(word)
+
+  return PORTUGUESE_FILLERS.has(word) ? escaped : `${escaped}(?:s|es)?`
+}
+
+// Minúsculas e sem acento, letra por letra, para o resultado ter o tamanho do original
+function fold(text: string): string {
+  return Array.from(text, (char) => {
+    const folded = char
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')
+      .toLowerCase()
+
+    return folded.length === char.length ? folded : char
+  }).join('')
+}
+
+function escapeRegExp(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function headsOf(ingredients: Ingredient[]): Set<string> {
@@ -162,7 +265,7 @@ function mentions(text: string, phrase: string): boolean {
 }
 
 function pluralPattern(phrase: string): string {
-  const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const escaped = escapeRegExp(phrase)
 
   if (escaped.endsWith('y')) return `${escaped.slice(0, -1)}(?:y|ies)`
   if (escaped.endsWith('f')) return `${escaped.slice(0, -1)}(?:f|ves)`

@@ -5,6 +5,7 @@ import { useMeasureSystemStore } from '@/features/measure-system'
 import { useTimersStore } from '@/features/step-timer'
 import { API_BASE_URL } from '@/shared/config'
 import { renderWithProviders, server } from '@/shared/testing'
+import { useNoticeStore } from '@/shared/ui'
 import { CookingModePage } from './CookingModePage'
 
 function cozinhar(query = '', id = '52772') {
@@ -17,6 +18,7 @@ function cozinhar(query = '', id = '52772') {
 beforeEach(() => {
   useMeasureSystemStore.setState({ system: 'metric' })
   useTimersStore.setState({ timers: {}, ringing: [] })
+  useNoticeStore.setState({ notice: null })
 })
 
 describe('CookingModePage', () => {
@@ -29,7 +31,8 @@ describe('CookingModePage', () => {
       screen.getByRole('heading', { level: 1, name: 'Modo Cozinha Ativo' }),
     ).toBeInTheDocument()
     expect(screen.getByText('17% pronto')).toBeInTheDocument()
-    expect(screen.getByText(/Preheat oven to 350/)).toBeInTheDocument()
+    // O passo aparece traduzido, em português
+    expect(await screen.findByText(/Pré-aqueça o forno a 350° F/)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /anterior/i })).toBeDisabled()
   })
 
@@ -56,8 +59,8 @@ describe('CookingModePage', () => {
     // 8 de 4 porções: 3/4 cup × 2 = 360 ml
     expect(within(ingredientes).getByText('Molho de soja')).toBeInTheDocument()
     expect(within(ingredientes).getByText('360 ml')).toBeInTheDocument()
-    // No texto do passo o ingrediente aparece destacado
-    expect(screen.getByText('soy sauce', { selector: 'strong' })).toBeInTheDocument()
+    // No texto traduzido do passo, o ingrediente aparece destacado em português
+    expect(await screen.findByText('molho de soja', { selector: 'strong' })).toBeInTheDocument()
   })
 
   it('mostra o timer só nos passos que citam tempo', async () => {
@@ -66,17 +69,36 @@ describe('CookingModePage', () => {
     expect(await screen.findByRole('timer')).toHaveTextContent('35:00')
   })
 
-  it('termina com a tela de receita concluída', async () => {
-    const { user } = cozinhar('?passo=6&porcoes=6')
+  it('o voltar leva à receita com as mesmas porções', async () => {
+    cozinhar('?passo=2&porcoes=6')
+
+    expect(await screen.findByRole('link', { name: /voltar para a receita/i })).toHaveAttribute(
+      'href',
+      '/receita/52772?porcoes=6',
+    )
+  })
+
+  it('ao concluir volta para o início e avisa com o toast', async () => {
+    const { user, router } = cozinhar('?passo=6')
 
     await user.click(await screen.findByRole('button', { name: /concluir/i }))
 
-    expect(screen.getByRole('heading', { name: 'Receita concluída!' })).toBeInTheDocument()
-    // O da barra de cima e o do cartão final: os dois voltam com as mesmas porções
-    for (const link of screen.getAllByRole('link', { name: /voltar para a receita/i })) {
-      expect(link).toHaveAttribute('href', '/receita/52772?porcoes=6')
-    }
-    expect(screen.queryByRole('navigation')).not.toBeInTheDocument()
+    expect(router.state.location.pathname).toBe('/')
+    expect(useNoticeStore.getState().notice).toMatchObject({
+      tone: 'success',
+      title: 'Concluído!',
+      message: 'Você terminou Teriyaki Chicken Casserole. Bom apetite!',
+    })
+  })
+
+  it('a seta do teclado não conclui a receita sozinha', async () => {
+    const { user, router } = cozinhar('?passo=6')
+    await screen.findByRole('heading', { level: 2, name: 'Passo 6' })
+
+    await user.keyboard('{ArrowRight}')
+
+    expect(router.state.location.pathname).toBe('/receita/52772/cozinhar')
+    expect(screen.getByRole('heading', { level: 2, name: 'Passo 6' })).toBeInTheDocument()
   })
 
   it('avisa quando a receita não existe', async () => {

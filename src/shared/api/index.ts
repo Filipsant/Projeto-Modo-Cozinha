@@ -1,0 +1,1 @@
+export { translateLines } from './translateLines'

@@ -21,7 +21,7 @@ export function RecipeStats({ recipe }: RecipeStatsProps) {
         <Stat
           icon={<Timer size={20} />}
           label={t('recipeDetails.totalTime')}
-          value={durationLabel(recipe.estimatedMinutes, { estimated: true })}
+          value={durationLabel(recipe.estimatedMinutes)}
         />
         <Stat
           icon={<CookingPot size={20} />}

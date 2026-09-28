@@ -2,6 +2,7 @@ import { Outlet } from 'react-router'
 import { UpdatePrompt } from '@/features/app-update'
 import { FavoritesUndoToast } from '@/features/favorite-recipe'
 import { useTranslation } from '@/shared/i18n'
+import { NoticeToast } from '@/shared/ui'
 import { OfflineBanner } from './ConnectionStatus'
 import { Footer } from './Footer'
 import { Header } from './Header'
@@ -27,6 +28,8 @@ export function AppLayout() {
 
       {/* No layout, e não no cartão: o aviso continua na tela depois que o cartão some */}
       <FavoritesUndoToast />
+      {/* Avisos que chegam de outra tela, como o "Concluído!" do modo cozinha */}
+      <NoticeToast />
       <UpdatePrompt />
     </div>
   )

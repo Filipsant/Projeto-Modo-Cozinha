@@ -1,10 +1,13 @@
 import { createBrowserRouter, type RouteObject } from 'react-router'
 import { AppLayout } from '@/widgets/app-layout'
+import { RootRoute } from './RootRoute'
 import { RouteError } from './RouteError'
 
 // Cada página só é baixada quando a rota dela é aberta (RNF03)
 export const routes: RouteObject[] = [
   {
+    // Cuida da rolagem ao trocar de página
+    Component: RootRoute,
     // Tela mostrada quando alguma página quebra
     ErrorBoundary: RouteError,
     // Tela mostrada enquanto o código da primeira página é baixado

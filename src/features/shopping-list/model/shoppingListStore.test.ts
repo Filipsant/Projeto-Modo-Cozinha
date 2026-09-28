@@ -73,6 +73,29 @@ describe('shoppingListStore', () => {
     })
   })
 
+  it('põe na lista só os ingredientes escolhidos', () => {
+    store().addRecipe(bolo, 4, [2])
+
+    expect(store().items.map((item) => item.name)).toEqual(['Eggs'])
+  })
+
+  it('mudar a escolha troca os itens e não desmarca o que já foi comprado', () => {
+    store().addRecipe(bolo, 4)
+    store().toggleItem('1:2')
+    store().addRecipe(bolo, 6, [2])
+
+    expect(store().recipes[0].servings).toBe(6)
+    expect(store().items).toMatchObject([{ id: '1:2', bought: true }])
+  })
+
+  it('escolher nenhum ingrediente tira a receita da lista', () => {
+    store().addRecipe(bolo, 4)
+    store().addRecipe(bolo, 4, [])
+
+    expect(store().recipes).toEqual([])
+    expect(store().items).toEqual([])
+  })
+
   it('esvazia a lista', () => {
     store().addRecipe(bolo, 4)
     store().clear()

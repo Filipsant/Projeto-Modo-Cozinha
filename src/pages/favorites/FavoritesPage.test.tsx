@@ -57,7 +57,7 @@ describe('FavoritesPage', () => {
     expect(nomes()).toEqual(['Omelete', 'Lasanha'])
     expect(screen.getAllByRole('link', { name: /cozinhar agora/i })[0]).toHaveAttribute(
       'href',
-      '/receita/2/cozinhar',
+      '/receita/2',
     )
   })
 

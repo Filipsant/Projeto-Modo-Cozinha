@@ -11,13 +11,13 @@ interface RecipeCardProps {
   recipe: Recipe
   /** Botões sobre a foto, como o coração. O card não sabe favoritar: quem sabe é a feature. */
   actions?: ReactNode
-  /** Botão roxo cheio. Nos favoritos só o primeiro cartão tem, como no design. */
-  highlighted?: boolean
 }
 
 // O cartão de receita da home e dos favoritos: foto com a origem, nome, tempo,
-// ingredientes e dificuldade, e o botão de cozinhar
-export function RecipeCard({ recipe, actions, highlighted = false }: RecipeCardProps) {
+// ingredientes e dificuldade, e o botão de cozinhar sempre no roxo cheio.
+// "Cozinhar agora" abre os ingredientes e o preparo: é lá que se escolhem as
+// porções antes de entrar no modo cozinha
+export function RecipeCard({ recipe, actions }: RecipeCardProps) {
   const { t } = useTranslation()
   const durationLabel = useDurationLabel()
   // Favorita antiga pode chegar sem detalhes: aí tempo e dificuldade ficam de fora
@@ -52,7 +52,7 @@ export function RecipeCard({ recipe, actions, highlighted = false }: RecipeCardP
         {hasDetails ? (
           <span className={styles.time}>
             <Timer size={16} aria-hidden="true" />
-            {durationLabel(recipe.estimatedMinutes, { estimated: true })}
+            {durationLabel(recipe.estimatedMinutes)}
           </span>
         ) : null}
       </div>
@@ -66,8 +66,7 @@ export function RecipeCard({ recipe, actions, highlighted = false }: RecipeCardP
       ) : null}
 
       <ButtonLink
-        to={`/receita/${recipe.id}/cozinhar`}
-        variant={highlighted ? 'primary' : 'secondary'}
+        to={`/receita/${recipe.id}`}
         className={styles.cook}
         icon={<ChefHat size={18} aria-hidden="true" />}
       >

@@ -2,8 +2,8 @@ import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react'
 import styles from './Button.module.scss'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** primary: ação principal. secondary: ação de apoio. ghost: ação discreta. */
-  variant?: 'primary' | 'secondary' | 'ghost'
+  /** primary: ação principal. secondary: ação de apoio. neutral: apoio em cinza. ghost: ação discreta. */
+  variant?: 'primary' | 'secondary' | 'neutral' | 'ghost'
   /** md: 48 px do app. cooking: 64 px do modo cozinha, para mãos molhadas. */
   size?: 'md' | 'cooking'
   loading?: boolean

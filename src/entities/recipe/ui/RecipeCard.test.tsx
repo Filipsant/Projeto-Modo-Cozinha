@@ -30,12 +30,12 @@ describe('RecipeCard', () => {
       'href',
       '/receita/7',
     )
-    expect(screen.getByText('~45 min')).toBeInTheDocument()
+    expect(screen.getByText('45 min')).toBeInTheDocument()
     expect(screen.getByText('2 ingredientes')).toBeInTheDocument()
     expect(screen.getByText('Médio')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /cozinhar agora/i })).toHaveAttribute(
       'href',
-      '/receita/7/cozinhar',
+      '/receita/7',
     )
   })
 
@@ -50,7 +50,7 @@ describe('RecipeCard', () => {
   it('esconde tempo e dificuldade quando a receita ainda não tem os detalhes', () => {
     renderWithProviders(<RecipeCard recipe={{ ...bolo, steps: [], estimatedMinutes: 0 }} />)
 
-    expect(screen.queryByText('~45 min')).not.toBeInTheDocument()
+    expect(screen.queryByText('45 min')).not.toBeInTheDocument()
     expect(screen.queryByText('Médio')).not.toBeInTheDocument()
   })
 })

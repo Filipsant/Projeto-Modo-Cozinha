@@ -1,5 +1,12 @@
 @use '@/shared/styles' as *;
 
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
 .button {
   background-color: var(--color-primary-soft);
 }
@@ -13,6 +20,27 @@
   font-weight: $weight-semibold;
 
   @include text-small;
+}
+
+// Discreto, embaixo do botão: mudar a escolha é o caso raro
+.choose {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: $touch-min;
+  padding: 0 $space-sm;
+  border: none;
+  border-radius: $radius-button;
+  background: none;
+  color: var(--color-primary-text);
+  font-weight: $weight-semibold;
+  cursor: pointer;
+
+  @include text-small;
+
+  &:hover {
+    background-color: var(--color-primary-tint);
+  }
 }
 
 .status {

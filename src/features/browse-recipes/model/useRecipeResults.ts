@@ -9,7 +9,7 @@ import { useBrowseParams } from './useBrowseParams'
 //  - com filtro: o catálogo completo (790 receitas), filtrado aqui no cliente
 export function useRecipeResults() {
   const queryClient = useQueryClient()
-  const { term, category, area, hasFilters } = useBrowseParams()
+  const { term, category, area, difficulty, hasFilters } = useBrowseParams()
 
   const selection = useQuery({ ...recipeQueries.search(''), enabled: !hasFilters })
   const catalog = useQuery({ ...recipeQueries.catalog(), enabled: hasFilters })
@@ -30,7 +30,9 @@ export function useRecipeResults() {
   }
 
   return {
-    recipes: catalog.data ? filterRecipes(catalog.data, { term, category, area }) : undefined,
+    recipes: catalog.data
+      ? filterRecipes(catalog.data, { term, category, area, difficulty })
+      : undefined,
     isPending: catalog.isPending,
     isError: catalog.isError,
     refetch: catalog.refetch,

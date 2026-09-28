@@ -26,6 +26,11 @@
   &:focus-within {
     border-color: var(--color-primary);
   }
+
+  // O anel de foco contorna a caixa inteira, com a seta e o X, e não só o texto
+  &:has(.input:focus-visible) {
+    @include focus-ring;
+  }
 }
 
 .input {
@@ -42,11 +47,36 @@
   &::placeholder {
     color: var(--color-text-muted);
   }
+
+  // Quem mostra o foco é a caixa (.control), senão o anel parava antes da seta
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+// A seta é um botão de verdade: clicar nela abre e fecha a lista
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  padding: 0 4px;
+  border: none;
+  background: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-text);
+  }
 }
 
 .chevron {
-  color: var(--color-text-muted);
-  pointer-events: none;
+  transition: transform $motion-fast $ease-out;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
 }
 
 .clear {

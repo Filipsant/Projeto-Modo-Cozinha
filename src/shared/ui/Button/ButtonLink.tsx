@@ -3,7 +3,7 @@ import { Link, type LinkProps } from 'react-router'
 import styles from './Button.module.scss'
 
 interface ButtonLinkProps extends LinkProps {
-  variant?: 'primary' | 'secondary' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'neutral' | 'ghost'
   size?: 'md' | 'cooking'
   icon?: ReactNode
   children: ReactNode

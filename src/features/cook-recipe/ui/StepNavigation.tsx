@@ -8,14 +8,17 @@ interface StepNavigationProps {
   step: number
   total: number
   onChange: (step: number) => void
+  /** O "Concluir" do último passo. */
+  onFinish: () => void
 }
 
-export function StepNavigation({ step, total, onChange }: StepNavigationProps) {
+export function StepNavigation({ step, total, onChange, onFinish }: StepNavigationProps) {
   const { t } = useTranslation()
   const isFirst = step <= 1
   const isLast = step >= total
 
-  // No notebook na bancada, as setas trocam de passo sem precisar mirar no botão
+  // No notebook na bancada, as setas trocam de passo sem precisar mirar no botão.
+  // No último passo a seta não conclui: sair da receita pede o clique no botão
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
@@ -23,7 +26,7 @@ export function StepNavigation({ step, total, onChange }: StepNavigationProps) {
         return
       }
 
-      if (event.key === 'ArrowRight' && step <= total) onChange(step + 1)
+      if (event.key === 'ArrowRight' && step < total) onChange(step + 1)
       if (event.key === 'ArrowLeft' && step > 1) onChange(step - 1)
     }
 
@@ -36,7 +39,7 @@ export function StepNavigation({ step, total, onChange }: StepNavigationProps) {
     <nav className={styles.bar} aria-label={t('cooking.stepNavigation')}>
       <div className={styles.inner}>
         <Button
-          variant="secondary"
+          variant="neutral"
           size="cooking"
           className={styles.previous}
           disabled={isFirst}
@@ -49,7 +52,7 @@ export function StepNavigation({ step, total, onChange }: StepNavigationProps) {
         <Button
           size="cooking"
           className={styles.next}
-          onClick={() => onChange(step + 1)}
+          onClick={() => (isLast ? onFinish() : onChange(step + 1))}
           icon={isLast ? <Check size={24} aria-hidden="true" /> : undefined}
         >
           {isLast ? t('cooking.finish') : t('cooking.next')}

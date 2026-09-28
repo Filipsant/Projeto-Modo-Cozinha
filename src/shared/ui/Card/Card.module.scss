@@ -1,12 +1,12 @@
 @use '@/shared/styles' as *;
 
+// Plano: sem contorno e sem sombra. Quem separa o cartão do fundo é a cor,
+// branco sobre o cinza do canvas no claro e #1d1f28 sobre #111319 no escuro
 .card {
   display: flex;
   flex-direction: column;
   gap: $space-sm;
   padding: $space-sm;
-  border: 1px solid var(--color-border);
   border-radius: $radius-card;
   background-color: var(--color-surface);
-  box-shadow: var(--shadow-card);
 }

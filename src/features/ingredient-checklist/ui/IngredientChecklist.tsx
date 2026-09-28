@@ -1,5 +1,5 @@
 import { ListChecks } from 'lucide-react'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import {
   translateIngredient,
   useMeasureLabel,
@@ -16,6 +16,11 @@ interface IngredientChecklistProps {
   /** Porções pedidas: as medidas são multiplicadas a partir da base de 4. */
   servings?: number
   system?: MeasureSystem
+  /**
+   * O que muda as medidas da lista, como porções e sistema de medidas. Fica no
+   * mesmo cartão, logo acima dos ingredientes: mexeu, a lista embaixo muda junto.
+   */
+  controls?: ReactNode
 }
 
 // A pessoa separa os ingredientes na bancada e vai marcando o que já pegou.
@@ -24,6 +29,7 @@ export function IngredientChecklist({
   ingredients,
   servings = BASE_SERVINGS,
   system = 'original',
+  controls,
 }: IngredientChecklistProps) {
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage ?? 'pt-BR'
@@ -67,6 +73,8 @@ export function IngredientChecklist({
             </button>
           </div>
         </div>
+
+        {controls ? <div className={styles.controls}>{controls}</div> : null}
 
         <ul className={styles.list} role="list">
           {ingredients.map((ingredient, position) => (

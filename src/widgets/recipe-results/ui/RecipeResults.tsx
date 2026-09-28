@@ -69,13 +69,7 @@ export function RecipeResults({
   return (
     <div className={styles.grid}>
       {recipes.map((recipe) => (
-        <RecipeCard
-          key={recipe.id}
-          recipe={recipe}
-          // Na home todos os cartões têm o botão roxo cheio, como no design da home
-          highlighted
-          actions={<FavoriteButton recipe={recipe} />}
-        />
+        <RecipeCard key={recipe.id} recipe={recipe} actions={<FavoriteButton recipe={recipe} />} />
       ))}
     </div>
   )

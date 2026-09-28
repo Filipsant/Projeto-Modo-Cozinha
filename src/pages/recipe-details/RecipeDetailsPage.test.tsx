@@ -4,7 +4,8 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { useMeasureSystemStore } from '@/features/measure-system'
 import { useShoppingListStore } from '@/features/shopping-list'
 import { useTimersStore } from '@/features/step-timer'
-import { API_BASE_URL } from '@/shared/config'
+import { API_BASE_URL, TRANSLATE_URL } from '@/shared/config'
+import { i18next } from '@/shared/i18n'
 import { renderWithProviders, server } from '@/shared/testing'
 import { RecipeDetailsPage } from './RecipeDetailsPage'
 
@@ -69,6 +70,17 @@ describe('RecipeDetailsPage', () => {
     )
   })
 
+  it('porções e sistema de medidas ficam no cartão dos ingredientes', async () => {
+    abrirReceita()
+
+    const ingredientes = await screen.findByRole('region', { name: 'Ingredientes' })
+
+    expect(within(ingredientes).getByRole('group', { name: 'Porções' })).toBeInTheDocument()
+    expect(
+      within(ingredientes).getByRole('radiogroup', { name: 'Sistema de Medidas' }),
+    ).toBeInTheDocument()
+  })
+
   it('abre com as porções da URL e troca para as unidades originais', async () => {
     const { user } = renderWithProviders(<RecipeDetailsPage />, {
       route: '/receita/52772?porcoes=8',
@@ -95,6 +107,37 @@ describe('RecipeDetailsPage', () => {
     expect(within(passos[1]).getByText('Molho de soja')).toBeInTheDocument()
   })
 
+  it('traduz os passos para o português e avisa que a tradução é automática', async () => {
+    abrirReceita()
+
+    const preparo = await screen.findByRole('region', { name: 'Modo de Preparo' })
+
+    expect(await within(preparo).findByText(/Pré-aqueça o forno a 350° F/)).toBeInTheDocument()
+    expect(
+      within(preparo).getByText('Passos traduzidos automaticamente do inglês'),
+    ).toBeInTheDocument()
+    expect(within(preparo).queryByText(/Preheat oven/)).not.toBeInTheDocument()
+  })
+
+  it('sem o tradutor, mostra os passos em inglês e explica por quê', async () => {
+    server.use(http.get(TRANSLATE_URL, () => new HttpResponse(null, { status: 503 })))
+    abrirReceita()
+
+    // Uma nova tentativa antes de desistir: por isso a espera maior
+    expect(
+      await screen.findByText(/Preheat oven to 350/, {}, { timeout: 4000 }),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/os passos estão em inglês/)).toBeInTheDocument()
+  })
+
+  it('em inglês mostra o texto original, sem chamar o tradutor', async () => {
+    await i18next.changeLanguage('en')
+    abrirReceita()
+
+    expect(await screen.findByText(/Preheat oven to 350/)).toBeInTheDocument()
+    expect(screen.queryByText(/machine-translated/)).not.toBeInTheDocument()
+  })
+
   it('adiciona à lista de compras e atualiza quando as porções mudam', async () => {
     const { user } = abrirReceita()
     // Água não entra na lista: são 8 dos 9 ingredientes
@@ -103,8 +146,12 @@ describe('RecipeDetailsPage', () => {
     })
 
     await user.click(adicionar)
+    // O diálogo abre com todos marcados
+    const dialogo = screen.getByRole('dialog', { name: 'Escolher ingredientes' })
+    await user.click(within(dialogo).getByRole('button', { name: 'Adicionar 8 itens' }))
 
     expect(useShoppingListStore.getState().recipes).toMatchObject([{ id: '52772', servings: 4 }])
+    expect(useShoppingListStore.getState().items).toHaveLength(8)
     expect(screen.getByRole('button', { name: /ver na lista de compras/i })).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Aumentar porções' }))
@@ -112,6 +159,46 @@ describe('RecipeDetailsPage', () => {
     expect(
       screen.getByRole('button', { name: /atualizar lista para 5 porções/i }),
     ).toBeInTheDocument()
+  })
+
+  it('deixa escolher quais ingredientes vão para a lista', async () => {
+    const { user } = abrirReceita()
+
+    await user.click(
+      await screen.findByRole('button', { name: 'Adicionar à Lista de Compras 8 itens' }),
+    )
+    const dialogo = screen.getByRole('dialog', { name: 'Escolher ingredientes' })
+
+    // Já tem alho e gengibre em casa
+    await user.click(within(dialogo).getByRole('checkbox', { name: /^Alho picado/ }))
+    await user.click(within(dialogo).getByRole('checkbox', { name: /^Gengibre em pó/ }))
+    expect(within(dialogo).getByText('6 de 8 selecionados')).toBeInTheDocument()
+    await user.click(within(dialogo).getByRole('button', { name: 'Adicionar 6 itens' }))
+
+    const nomes = useShoppingListStore.getState().items.map((item) => item.name)
+    expect(nomes).toHaveLength(6)
+    expect(nomes).not.toContain('minced garlic')
+    expect(nomes).not.toContain('ground ginger')
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+
+    // Com a receita na lista, dá para reabrir o diálogo com as marcas de agora
+    await user.click(screen.getByRole('button', { name: 'Escolher ingredientes' }))
+    expect(
+      within(screen.getByRole('dialog')).getByRole('checkbox', { name: /^Alho picado/ }),
+    ).not.toBeChecked()
+    expect(screen.getByRole('button', { name: 'Salvar 6 itens' })).toBeInTheDocument()
+  })
+
+  it('cancelar a escolha não põe nada na lista', async () => {
+    const { user } = abrirReceita()
+
+    await user.click(
+      await screen.findByRole('button', { name: 'Adicionar à Lista de Compras 8 itens' }),
+    )
+    await user.click(screen.getByRole('button', { name: 'Cancelar' }))
+
+    expect(useShoppingListStore.getState().recipes).toEqual([])
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('oferece o cronômetro rápido do passo mais demorado', async () => {

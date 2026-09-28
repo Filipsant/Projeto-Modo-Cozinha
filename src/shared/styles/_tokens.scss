@@ -130,18 +130,29 @@ $ease-out: cubic-bezier(0.2, 0.8, 0.3, 1);
   --color-primary-tint: #{$brand-50};
   --color-on-primary: #{$white};
 
+  // Botão cinza, como o "Anterior" do modo cozinha (medido no design)
+  --color-neutral-soft: #e7e8ec;
+  --color-neutral-soft-hover: #dcdde2;
+
   --color-success: #0f7b55;
   --color-danger: #c0271f;
+  // Coração de favorito, medido no design system: 6,5:1 sobre o branco
+  --color-favorite: #ba1a1a;
 
   // Laranja do tempo de cada passo e do método: 5,5:1 sobre o fundo claro dele
   --color-warm: #9a4d06;
   --color-warm-soft: #fff1df;
 
-  // Avisos (toast): o contrário do tema, como no design system
-  --color-inverse-surface: #{$gray-900};
-  --color-on-inverse: #{$white};
-  --color-inverse-primary: #{$brand-300};
-  --color-inverse-hover: rgba(255, 255, 255, 0.1);
+  // Avisos (toast): seguem o tema, claro no claro e escuro no escuro. Os círculos
+  // de sucesso e erro foram medidos nos toasts do design
+  --color-toast-surface: #{$white};
+  --color-toast-border: transparent;
+  --color-toast-text: #{$gray-900};
+  --color-toast-muted: #{$gray-600};
+  --color-toast-action: #{$brand-600};
+  --color-toast-hover: rgba(24, 28, 36, 0.06);
+  --color-toast-success: #35912d;
+  --color-toast-error: #d92d2d;
 
   --color-focus: #{$brand-700};
 
@@ -173,16 +184,28 @@ $ease-out: cubic-bezier(0.2, 0.8, 0.3, 1);
   --color-primary-tint: #2a2348;
   --color-on-primary: #{$white};
 
+  --color-neutral-soft: #2b2d37;
+  --color-neutral-soft-hover: #353844;
+
   --color-success: #4bd6a0;
   --color-danger: #ff8a80;
+  // Vermelho da mesma família do claro, mais aceso: o #ba1a1a some no cartão
+  // escuro (2,5:1), e este dá 5,2:1 sem virar o rosa-salmão do design
+  --color-favorite: #ff5449;
 
   --color-warm: #f6b35c;
   --color-warm-soft: #311c15;
 
-  --color-inverse-surface: #{$gray-50};
-  --color-on-inverse: #{$gray-900};
-  --color-inverse-primary: #{$brand-700};
-  --color-inverse-hover: rgba(24, 28, 36, 0.08);
+  // O toast escuro do design (#1e222d, texto de apoio #c0b9ca). A linha fina
+  // separa o aviso do fundo, que no escuro é quase da mesma cor
+  --color-toast-surface: #1e222d;
+  --color-toast-border: #2b2d37;
+  --color-toast-text: #{$white};
+  --color-toast-muted: #c0b9ca;
+  --color-toast-action: #cfbdff;
+  --color-toast-hover: rgba(255, 255, 255, 0.08);
+  --color-toast-success: #35912d;
+  --color-toast-error: #ef3c3c;
 
   --color-focus: #cfbdff;
 

@@ -5,7 +5,7 @@
   flex-direction: column;
   gap: $space-xs;
   padding: $space-sm;
-  border: 1px solid var(--color-border);
+  // Plano como o cartão de receita que ele antecipa: sem contorno e sem sombra
   border-radius: $radius-card;
   background-color: var(--color-surface);
 }

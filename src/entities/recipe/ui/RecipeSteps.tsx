@@ -1,25 +1,25 @@
-import { Clock, ListOrdered } from 'lucide-react'
-import { useMemo } from 'react'
+import { Clock, Languages, ListOrdered } from 'lucide-react'
 import { useTranslation } from '@/shared/i18n'
-import { Card } from '@/shared/ui'
-import { describeSteps } from '../lib/describeSteps'
+import { Card, SkeletonText } from '@/shared/ui'
 import { translateIngredient } from '../lib/translateIngredient'
 import { ingredientKey, uniqueIngredients } from '../lib/uniqueIngredients'
 import type { Recipe } from '../model/recipe.types'
 import styles from './RecipeSteps.module.scss'
 import { useDurationLabel } from './useDurationLabel'
+import { useRecipeSteps, type StepsStatus } from './useRecipeSteps'
 
 interface RecipeStepsProps {
   recipe: Recipe
 }
 
-// O texto dos passos fica em inglês, como veio da API. Tempo e ingredientes de
-// cada passo são tirados desse texto, por isso só aparecem quando ele os cita.
+// O texto dos passos aparece no idioma da interface, traduzido do inglês da API.
+// Tempo e ingredientes de cada passo são tirados do original, por isso só
+// aparecem quando o passo os cita.
 export function RecipeSteps({ recipe }: RecipeStepsProps) {
   const { t, i18n } = useTranslation()
   const language = i18n.resolvedLanguage ?? 'pt-BR'
   const durationLabel = useDurationLabel()
-  const steps = useMemo(() => describeSteps(recipe), [recipe])
+  const { steps, status } = useRecipeSteps(recipe)
 
   return (
     <section className={styles.section} aria-labelledby="titulo-preparo">
@@ -33,7 +33,9 @@ export function RecipeSteps({ recipe }: RecipeStepsProps) {
         </span>
       </div>
 
-      <ol className={styles.list} role="list">
+      <TranslationNote status={status} />
+
+      <ol className={styles.list} role="list" aria-busy={status === 'translating'}>
         {steps.map((step) => (
           <li key={step.number}>
             <Card className={styles.step}>
@@ -49,7 +51,7 @@ export function RecipeSteps({ recipe }: RecipeStepsProps) {
                   <span className={styles.visuallyHidden}>
                     {t('recipeDetails.step', { number: step.number })}:{' '}
                   </span>
-                  {step.text}
+                  {status === 'translating' ? <SkeletonText lines={2} /> : step.text}
                 </p>
 
                 {step.minutes ? (
@@ -78,4 +80,29 @@ export function RecipeSteps({ recipe }: RecipeStepsProps) {
       </ol>
     </section>
   )
+}
+
+// Tradução de máquina avisa que é de máquina; sem tradução, avisa por que está em inglês
+function TranslationNote({ status }: { status: StepsStatus }) {
+  const { t } = useTranslation()
+
+  if (status === 'translated') {
+    return (
+      <p className={styles.note}>
+        <Languages size={16} aria-hidden="true" />
+        {t('recipe.translatedNote')}
+      </p>
+    )
+  }
+
+  if (status === 'failed') {
+    return (
+      <p className={`${styles.note} ${styles.noteWarning}`} role="status">
+        <Languages size={16} aria-hidden="true" />
+        {t('recipe.translationFailed')}
+      </p>
+    )
+  }
+
+  return null
 }

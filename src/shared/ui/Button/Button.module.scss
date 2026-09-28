@@ -43,6 +43,17 @@
   }
 }
 
+// Cinza com texto escuro, como o "Anterior" do modo cozinha: fica atrás do roxo
+// sem disputar com ele
+.neutral {
+  background-color: var(--color-neutral-soft);
+  color: var(--color-text);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-neutral-soft-hover);
+  }
+}
+
 .ghost {
   background-color: transparent;
   color: var(--color-primary-text);

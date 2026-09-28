@@ -60,3 +60,33 @@ describe('filterRecipes', () => {
     expect(achadas.map((r) => r.id)).toEqual(['2'])
   })
 })
+
+describe('filterRecipes por dificuldade', () => {
+  const comDificuldade = [
+    receita({ id: 'a', name: 'Omelete', difficulty: 'easy' }),
+    receita({ id: 'b', name: 'Lasanha', difficulty: 'hard' }),
+    receita({ id: 'c', name: 'Omelete Recheada', difficulty: 'medium' }),
+  ]
+
+  it('deixa só a dificuldade escolhida', () => {
+    const achadas = filterRecipes(comDificuldade, {
+      term: '',
+      category: '',
+      area: '',
+      difficulty: 'hard',
+    })
+
+    expect(achadas.map((r) => r.id)).toEqual(['b'])
+  })
+
+  it('combina dificuldade com a busca', () => {
+    const achadas = filterRecipes(comDificuldade, {
+      term: 'omelete',
+      category: '',
+      area: '',
+      difficulty: 'easy',
+    })
+
+    expect(achadas.map((r) => r.id)).toEqual(['a'])
+  })
+})

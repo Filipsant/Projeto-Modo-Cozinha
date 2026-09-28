@@ -2,6 +2,7 @@ import { Expand, Hand } from 'lucide-react'
 import {
   AreaFilter,
   CategoryFilter,
+  DifficultyFilter,
   SearchBar,
   useBrowseParams,
   useRecipeResults,
@@ -35,6 +36,7 @@ export function HomePage() {
           <SearchBar className={styles.busca} />
           <CategoryFilter className={styles.filtro} />
           <AreaFilter className={styles.filtro} />
+          <DifficultyFilter className={styles.filtro} />
         </div>
       </Card>
 

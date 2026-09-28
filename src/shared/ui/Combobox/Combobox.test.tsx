@@ -73,6 +73,19 @@ describe('Combobox', () => {
     expect(aoEscolher).not.toHaveBeenCalled()
   })
 
+  it('abre e fecha a lista pela seta', async () => {
+    const user = userEvent.setup()
+    render(<ComboboxControlado />)
+    const seta = screen.getByRole('button', { name: 'Origem culinária' })
+
+    await user.click(seta)
+    expect(screen.getByRole('listbox')).toBeInTheDocument()
+    expect(screen.getByRole('combobox')).toHaveFocus()
+
+    await user.click(seta)
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+  })
+
   it('mostra aviso quando a busca não casa com nada', async () => {
     const user = userEvent.setup()
     render(<ComboboxControlado />)

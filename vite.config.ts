@@ -72,6 +72,17 @@ export default defineConfig({
             },
           },
           {
+            // Passos traduzidos: o mesmo texto sempre traduz igual, então o cache
+            // responde na hora e a receita já vista continua em português offline
+            urlPattern: /^https:\/\/translate\.googleapis\.com\/translate_a\//,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'translations',
+              expiration: { maxEntries: 300, maxAgeSeconds: 30 * DAY, purgeOnQuotaError: true },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\//,
             handler: 'StaleWhileRevalidate',
             options: { cacheName: 'google-fonts-css' },

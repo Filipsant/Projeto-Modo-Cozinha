@@ -7,6 +7,7 @@ import filterSeafood from './filter-seafood.json'
 import lookupTeriyaki from './lookup-52772.json'
 import searchChicken from './search-chicken.json'
 import searchEmpty from './search-vazio.json'
+import translateTeriyaki from './translate-52772.json'
 
 export const fixtures = {
   /** lookup.php?i=52772 — receita completa, com vídeo e medidas em fração */
@@ -21,4 +22,6 @@ export const fixtures = {
   areas,
   /** filter.php?c=Seafood — só id, nome e foto */
   filterSeafood,
+  /** Tradutor do Google: os 6 passos da 52772 em português, uma frase por item */
+  translateTeriyaki: translateTeriyaki as [[string, string][], null, string],
 }

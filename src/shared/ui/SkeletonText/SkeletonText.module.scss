@@ -1,0 +1,32 @@
+@use '@/shared/styles' as *;
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding-block: 0.25em;
+}
+
+// Da altura da letra de quem usa: no modo cozinha a linha sai grande como o texto
+.line {
+  display: block;
+  height: 0.8em;
+  border-radius: $radius-button;
+  background-color: var(--color-divider);
+  animation: pulsar 1.4s ease-in-out infinite;
+}
+
+.last {
+  width: 60%;
+}
+
+@keyframes pulsar {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}

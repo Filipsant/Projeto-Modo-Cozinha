@@ -34,6 +34,21 @@
   @include text-small;
 }
 
+// "Tradução automática do inglês", discreto logo abaixo do título
+.note {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: -$space-xs;
+  color: var(--color-text-muted);
+
+  @include text-small;
+}
+
+.noteWarning {
+  color: var(--color-warm);
+}
+
 .list {
   display: flex;
   flex-direction: column;

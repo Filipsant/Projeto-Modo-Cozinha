@@ -49,6 +49,19 @@
   }
 }
 
+// Painel de ajustes, rebaixado no cartão: fica claro que é controle, e não ingrediente
+.controls {
+  margin-top: $space-sm;
+  padding: $space-sm;
+  border: 1px solid var(--color-divider);
+  border-radius: $radius-card;
+  background-color: var(--color-surface-inset);
+}
+
+.controls + .list {
+  margin-top: $space-xs;
+}
+
 .list {
   padding: 0;
   list-style: none;

@@ -1,4 +1,6 @@
 import { queryOptions } from '@tanstack/react-query'
+import { translateLines } from '@/shared/api'
+import type { Recipe } from '../model/recipe.types'
 import { mealdbClient } from './mealdbClient'
 
 const MINUTE = 60_000
@@ -30,5 +32,15 @@ export const recipeQueries = {
       queryKey: [...recipeQueries.all, 'detail', id] as const,
       queryFn: ({ signal }) => mealdbClient.getById(id, { signal }),
       staleTime: 30 * MINUTE,
+    }),
+
+  // A tradução de um texto não muda: vale a sessão inteira. Uma tentativa extra
+  // só, para quem está sem internet ver logo o texto original
+  translatedSteps: (recipe: Pick<Recipe, 'id' | 'steps'>, language: string) =>
+    queryOptions({
+      queryKey: [...recipeQueries.all, 'steps', recipe.id, language] as const,
+      queryFn: ({ signal }) => translateLines(recipe.steps, { from: 'en', to: language, signal }),
+      staleTime: Infinity,
+      retry: 1,
     }),
 }

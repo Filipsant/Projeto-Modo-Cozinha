@@ -40,6 +40,7 @@ export function Combobox({
   const { t } = useTranslation()
   const id = useId()
   const rootRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
@@ -73,6 +74,23 @@ export function Combobox({
     setOpen(false)
   }
 
+  function close() {
+    setOpen(false)
+    setQuery('')
+  }
+
+  // A seta abre e fecha a lista, e deixa o foco no campo para já dar para digitar
+  function toggleList() {
+    if (open) {
+      close()
+      return
+    }
+
+    setActiveIndex(0)
+    setOpen(true)
+    inputRef.current?.focus()
+  }
+
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'ArrowDown') {
       event.preventDefault()
@@ -95,8 +113,7 @@ export function Combobox({
         choose(option)
       }
     } else if (event.key === 'Escape') {
-      setOpen(false)
-      setQuery('')
+      close()
     }
   }
 
@@ -110,6 +127,7 @@ export function Combobox({
 
       <div className={styles.control}>
         <input
+          ref={inputRef}
           id={`${id}-input`}
           className={styles.input}
           role="combobox"
@@ -125,6 +143,8 @@ export function Combobox({
             setOpen(true)
           }}
           onFocus={() => setOpen(true)}
+          // Depois do Esc o foco continua no campo: o clique precisa reabrir a lista
+          onClick={() => setOpen(true)}
           onKeyDown={handleKeyDown}
         />
 
@@ -140,9 +160,26 @@ export function Combobox({
           >
             <X size={16} aria-hidden="true" />
           </button>
-        ) : (
-          <ChevronDown size={16} className={styles.chevron} aria-hidden="true" />
-        )}
+        ) : null}
+
+        {/* Fora da ordem do Tab, como no padrão ARIA: pelo teclado quem abre é a seta ↓ */}
+        <button
+          type="button"
+          className={styles.toggle}
+          tabIndex={-1}
+          aria-label={label}
+          aria-controls={`${id}-listbox`}
+          aria-expanded={open}
+          // Sem isto o campo perderia o foco antes do clique, e a lista fecharia e reabriria
+          onPointerDown={(event) => event.preventDefault()}
+          onClick={toggleList}
+        >
+          <ChevronDown
+            size={16}
+            className={open ? `${styles.chevron} ${styles.chevronOpen}` : styles.chevron}
+            aria-hidden="true"
+          />
+        </button>
       </div>
 
       {open ? (

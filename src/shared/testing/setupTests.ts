@@ -4,6 +4,9 @@ import { afterAll, afterEach, beforeAll, beforeEach } from 'vitest'
 import { i18next } from '@/shared/i18n'
 import { server } from './msw/server'
 
+// O jsdom não rola a página, e o ScrollRestoration das rotas chama scrollTo a cada navegação
+window.scrollTo = () => {}
+
 // Qualquer requisição sem handler quebra o teste: nenhum teste depende da internet
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 

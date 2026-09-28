@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { recipeQueries } from '@/entities/recipe'
+import { DIFFICULTIES } from './useBrowseParams'
 
 /** Quantas origens aparecem como chip; o resto vai para o seletor. */
 export const VISIBLE_AREAS = 8
@@ -31,6 +32,11 @@ export function useCatalogFacets() {
     () => ({
       categories: contar((data ?? []).map((recipe) => recipe.category)),
       areas: contar((data ?? []).map((recipe) => recipe.area)),
+      // Na ordem fácil, médio, difícil, e não pela contagem: é uma escala
+      difficulties: DIFFICULTIES.map((value) => ({
+        value,
+        count: (data ?? []).filter((recipe) => recipe.difficulty === value).length,
+      })),
       isReady: Boolean(data),
     }),
     [data],

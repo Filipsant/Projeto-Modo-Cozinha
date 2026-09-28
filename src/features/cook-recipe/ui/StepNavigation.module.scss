@@ -7,21 +7,28 @@
   z-index: 10;
   padding: $space-sm $space-md calc(#{$space-sm} + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-  box-shadow: 0 -8px 24px rgba(24, 28, 36, 0.06);
+  background-color: var(--color-header);
 }
 
+// Lado a lado na direita, onde o polegar alcança. No celular cada um fica com metade
 .inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  display: flex;
+  justify-content: flex-end;
   gap: $space-sm;
   max-width: $content-max;
   margin: 0 auto;
 }
 
+// Pílulas, como no design; a altura continua a de 64 px do modo cozinha
 .previous,
 .next {
-  width: 100%;
+  flex: 1;
+  border-radius: $radius-pill;
+
+  @include from(tablet) {
+    flex: 0 0 auto;
+    min-width: 12rem;
+  }
 }
 
 .next {

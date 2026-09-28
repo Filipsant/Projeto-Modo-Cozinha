@@ -6,17 +6,24 @@
   gap: $space-md;
 }
 
-// No desktop os grupos ficam lado a lado; cada um só ocupa a altura dos seus itens
+// Colunas, e não grade: na grade, um corredor curto ao lado de um comprido deixava
+// um buraco embaixo dele até a próxima linha. Aqui cada cartão encosta no de cima,
+// sempre a 16 px, na horizontal e na vertical. No desktop são duas colunas
 .groups {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
-  gap: $space-sm;
-  align-items: start;
+  columns: 2 24rem;
+  column-gap: $space-sm;
 }
 
 .group {
   gap: $space-xs;
+  margin-bottom: $space-sm;
   padding: $space-md;
+  // Um corredor nunca se parte entre duas colunas
+  break-inside: avoid;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .groupHeader {

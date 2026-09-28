@@ -79,4 +79,28 @@ describe('highlightIngredients', () => {
       { text: 'Preheat the oven.', ingredient: false },
     ])
   })
+
+  it('no passo traduzido, procura os nomes em português, sem ligar para acento', () => {
+    const list = ingredients('soy sauce', 'Brown Sugar')
+    const passo = 'Misture o molho de soja e o Açúcar mascavo.'
+
+    expect(highlightIngredients(passo, list, 'pt')).toEqual([
+      { text: 'Misture o ', ingredient: false },
+      { text: 'molho de soja', ingredient: true },
+      { text: ' e o ', ingredient: false },
+      { text: 'Açúcar mascavo', ingredient: true },
+      { text: '.', ingredient: false },
+    ])
+  })
+
+  it('em português, acha o plural e a palavra principal do nome', () => {
+    const list = ingredients('Chicken Breast', 'Garlic Clove')
+    const passo = 'Coloque os peitos de frango e o alho. Desfie o frango.'
+
+    const destacados = highlightIngredients(passo, list, 'pt')
+      .filter((segment) => segment.ingredient)
+      .map((segment) => segment.text)
+
+    expect(destacados).toEqual(['peitos de frango', 'alho', 'frango'])
+  })
 })

@@ -6,9 +6,9 @@ describe('clampStep', () => {
     expect(clampStep('3', 6)).toBe(3)
   })
 
-  it('vai até o passo depois do último, que é a tela de concluída', () => {
-    expect(clampStep('7', 6)).toBe(7)
-    expect(clampStep('99', 6)).toBe(7)
+  it('não passa do último passo', () => {
+    expect(clampStep('6', 6)).toBe(6)
+    expect(clampStep('99', 6)).toBe(6)
   })
 
   it('volta para o primeiro quando o valor não serve', () => {

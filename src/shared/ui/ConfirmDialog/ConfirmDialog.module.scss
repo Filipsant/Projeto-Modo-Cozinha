@@ -1,27 +1,5 @@
 @use '@/shared/styles' as *;
 
-.backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: grid;
-  place-items: center;
-  padding: $space-md;
-  background-color: rgba(12, 10, 20, 0.5);
-}
-
-.dialog {
-  display: flex;
-  flex-direction: column;
-  gap: $space-xs;
-  width: min(28rem, 100%);
-  padding: $space-md;
-  border: 1px solid var(--color-border);
-  border-radius: $radius-card;
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-overlay);
-}
-
 // Vermelho, como no design system: é uma ação que não tem volta
 .title {
   display: flex;

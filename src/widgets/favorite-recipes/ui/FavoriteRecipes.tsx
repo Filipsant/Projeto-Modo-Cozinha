@@ -48,14 +48,9 @@ export function FavoriteRecipes({ recipes, hasFavorites, onShowAll }: FavoriteRe
 
   return (
     <ul className={styles.grid} role="list">
-      {recipes.map((recipe, position) => (
+      {recipes.map((recipe) => (
         <li key={recipe.id} className={styles.item}>
-          <RecipeCard
-            recipe={recipe}
-            // Só o primeiro cartão leva o botão roxo cheio, como no design
-            highlighted={position === 0}
-            actions={<FavoriteButton recipe={recipe} />}
-          />
+          <RecipeCard recipe={recipe} actions={<FavoriteButton recipe={recipe} />} />
         </li>
       ))}
     </ul>

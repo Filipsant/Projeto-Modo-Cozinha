@@ -62,7 +62,7 @@ function mentionedMinutes(step: string): number {
   return minutes
 }
 
-/** Separa minutos em horas e minutos, para mostrar "~1 h 30 min" em vez de "~90 min". */
+/** Separa minutos em horas e minutos, para mostrar "1 h 30 min" em vez de "90 min". */
 export function splitDuration(totalMinutes: number): { hours: number; minutes: number } {
   return { hours: Math.floor(totalMinutes / 60), minutes: totalMinutes % 60 }
 }

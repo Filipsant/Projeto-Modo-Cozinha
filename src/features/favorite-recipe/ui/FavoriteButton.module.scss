@@ -1,5 +1,9 @@
 @use '@/shared/styles' as *;
 
-.active {
+.heart {
+  color: var(--color-favorite);
+}
+
+.bookmark {
   color: var(--color-primary-text);
 }

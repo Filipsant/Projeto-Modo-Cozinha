@@ -52,8 +52,10 @@
   min-width: 16rem;
 }
 
+// Três filtros e a busca na mesma linha: os filtros cedem um pouco de largura
+// para o texto de exemplo da busca caber inteiro
 .filtro {
-  flex: 0 0 auto;
+  flex: 0 1 13.5rem;
 }
 
 .resultados {

@@ -24,7 +24,8 @@ export function FavoriteButton({ recipe, icon = 'heart' }: FavoriteButtonProps) 
       // aria-pressed diz o estado a quem não vê o ícone preenchido (RF10)
       aria-pressed={isFavorite}
       label={isFavorite ? t('recipe.unfavorite') : t('recipe.favorite')}
-      className={isFavorite ? styles.active : undefined}
+      // O coração salvo fica vermelho; o marcador do detalhe, roxo como no design
+      className={isFavorite ? (icon === 'heart' ? styles.heart : styles.bookmark) : undefined}
       onClick={() => toggle(recipe)}
     >
       <Icon size={18} aria-hidden="true" fill={isFavorite ? 'currentColor' : 'none'} />

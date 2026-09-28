@@ -1,7 +1,6 @@
 import { ChevronLeft, Sun } from 'lucide-react'
-import { useMemo } from 'react'
-import { Link } from 'react-router'
-import { describeSteps, highlightIngredients, type Recipe } from '@/entities/recipe'
+import { Link, useNavigate } from 'react-router'
+import { highlightIngredients, useRecipeSteps, type Recipe } from '@/entities/recipe'
 import { SERVINGS_PARAM, useServings } from '@/features/adjust-servings'
 import { StepNavigation, progressPercent, useCookingStep } from '@/features/cook-recipe'
 import { useMeasureSystem } from '@/features/measure-system'
@@ -9,9 +8,8 @@ import { StepTimer, TimerAlarm } from '@/features/step-timer'
 import { BASE_SERVINGS } from '@/shared/config'
 import { useTranslation } from '@/shared/i18n'
 import { useWakeLock } from '@/shared/lib'
-import { Card } from '@/shared/ui'
+import { Card, SkeletonText, showNotice } from '@/shared/ui'
 import styles from './CookingSession.module.scss'
-import { CookingDone } from './CookingDone'
 import { StepIngredients } from './StepIngredients'
 
 interface CookingSessionProps {
@@ -22,7 +20,9 @@ interface CookingSessionProps {
 // dois botões de 64 px presos embaixo.
 export function CookingSession({ recipe }: CookingSessionProps) {
   const { t } = useTranslation()
-  const steps = useMemo(() => describeSteps(recipe), [recipe])
+  const navigate = useNavigate()
+  // No idioma da interface; tempo e ingredientes de cada passo vêm do original em inglês
+  const { steps, status, language } = useRecipeSteps(recipe)
   const total = steps.length
   const [stepNumber, setStep] = useCookingStep(total)
   const [servings] = useServings()
@@ -30,6 +30,16 @@ export function CookingSession({ recipe }: CookingSessionProps) {
   const screenOn = useWakeLock()
   const current = steps[stepNumber - 1]
   const recipeLink = `/receita/${recipe.id}${servings === BASE_SERVINGS ? '' : `?${SERVINGS_PARAM}=${servings}`}`
+
+  // Sem tela de fim: o "Concluir" volta para o início, e o toast confirma
+  function finish() {
+    showNotice({
+      tone: 'success',
+      title: t('cooking.doneTitle'),
+      message: t('cooking.doneDescription', { name: recipe.name }),
+    })
+    navigate('/')
+  }
 
   return (
     <div className={styles.session}>
@@ -85,17 +95,24 @@ export function CookingSession({ recipe }: CookingSessionProps) {
                 <Card className={styles.stepCard} aria-live="polite">
                   <h2 className={styles.stepTitle}>{t('cooking.step', { number: stepNumber })}</h2>
                   <p className={styles.stepText}>
-                    {highlightIngredients(current.text, current.ingredients).map(
-                      (segment, index) =>
-                        segment.ingredient ? (
-                          <strong key={index} className={styles.mention}>
-                            {segment.text}
-                          </strong>
-                        ) : (
-                          segment.text
-                        ),
+                    {status === 'translating' ? (
+                      <SkeletonText lines={3} />
+                    ) : (
+                      highlightIngredients(current.text, current.ingredients, language).map(
+                        (segment, index) =>
+                          segment.ingredient ? (
+                            <strong key={index} className={styles.mention}>
+                              {segment.text}
+                            </strong>
+                          ) : (
+                            segment.text
+                          ),
+                      )
                     )}
                   </p>
+                  {status === 'failed' ? (
+                    <p className={styles.translationNote}>{t('recipe.translationFailed')}</p>
+                  ) : null}
                 </Card>
               </div>
 
@@ -128,16 +145,16 @@ export function CookingSession({ recipe }: CookingSessionProps) {
               </div>
             </div>
           </>
-        ) : total === 0 ? (
+        ) : (
           <Card className={styles.empty}>
             <p>{t('cooking.noSteps')}</p>
           </Card>
-        ) : (
-          <CookingDone recipe={recipe} recipeLink={recipeLink} />
         )}
       </main>
 
-      {current ? <StepNavigation step={stepNumber} total={total} onChange={setStep} /> : null}
+      {current ? (
+        <StepNavigation step={stepNumber} total={total} onChange={setStep} onFinish={finish} />
+      ) : null}
 
       <TimerAlarm onGoToStep={setStep} />
     </div>
