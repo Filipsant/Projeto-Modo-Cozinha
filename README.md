@@ -9,6 +9,7 @@ App de receitas que ajusta as porções, converte as medidas, gera a lista de co
 ## O que o app faz
 
 - **Busca no catálogo inteiro:** as 790 receitas da API, filtradas por nome, ingrediente, categoria, origem e dificuldade. A busca da TheMealDB para em 25 resultados; o app contorna isso montando o catálogo letra por letra.
+- **Em alta na bancada:** vitrine na home com as receitas mais abertas neste aparelho nos últimos 7 dias, por categoria, em pôsteres de vidro com ilustrações de traço, sobre uma luz em movimento. Sem cliques ainda, mostra sugestões do catálogo.
 - **Detalhe da receita:**
   - porções de 1 a 20, guardadas na URL (`?porcoes=6`)
   - medidas convertidas para g/ml ou mantidas nas unidades originais, em frações de medidor ("¾ xícara")

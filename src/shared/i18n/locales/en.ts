@@ -80,6 +80,7 @@ export const en: typeof ptBR = {
     previous: 'Previous recipes',
     next: 'Next recipes',
     suggestion: 'Pick',
+    empty: 'No recipes in this category yet.',
     cardLabel_one: '#{{rank}}: {{name}}, {{count}} click',
     cardLabel_other: '#{{rank}}: {{name}}, {{count}} clicks',
     cardSuggestionLabel: '{{name}}, picked from the catalog',

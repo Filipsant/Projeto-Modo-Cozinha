@@ -11,11 +11,12 @@ import { OfflineReadyBadge } from '@/features/app-update'
 import { useTranslation } from '@/shared/i18n'
 import { Callout, Card } from '@/shared/ui'
 import { RecipeResults } from '@/widgets/recipe-results'
+import { TrendingRecipes } from '@/widgets/trending-recipes'
 import styles from './HomePage.module.scss'
 
 export function HomePage() {
   const { t } = useTranslation()
-  const { clearFilters } = useBrowseParams()
+  const { hasFilters, clearFilters } = useBrowseParams()
   const { recipes, isPending, isError, refetch } = useRecipeResults()
 
   return (
@@ -40,7 +41,10 @@ export function HomePage() {
         </div>
       </Card>
 
-      <section className={styles.resultados} aria-labelledby="titulo-resultados">
+      {/* Vitrine só na home sem busca: com um filtro ativo, o que importa é o resultado */}
+      {hasFilters ? null : <TrendingRecipes exploreHref="#receitas" />}
+
+      <section id="receitas" className={styles.resultados} aria-labelledby="titulo-resultados">
         <div className={styles.resultadosCabecalho}>
           <div>
             <h2 id="titulo-resultados" className={styles.resultadosTitulo}>

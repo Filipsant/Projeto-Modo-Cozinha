@@ -159,6 +159,9 @@ export function TrendingRecipes({ exploreHref }: TrendingRecipesProps) {
               : items.map((item) => (
                   <TrendingCard key={item.recipe.id} item={item} maxClicks={maxClicks} />
                 ))}
+            {catalog.isSuccess && items.length === 0 ? (
+              <li className={styles.empty}>{t('trending.empty')}</li>
+            ) : null}
           </ol>
 
           <button

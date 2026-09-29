@@ -1,0 +1,523 @@
+@use '@/shared/styles' as *;
+
+// Cores próprias da vitrine, a mesma nos dois temas: texto branco e lilás sobre
+// o fundo roxo-escuro do design
+$ink: $white;
+$ink-muted: #d9d3f4;
+$night: rgb(16 14 28);
+$radius-poster: 0.5rem; // 8 px
+
+// ---------------------------------------------------------------------------
+// Seção: a luz roxa do design ao fundo, escurecida à esquerda, onde fica o texto
+// ---------------------------------------------------------------------------
+.section {
+  position: relative;
+  overflow: hidden;
+  border-radius: $radius-card;
+  background-color: $night;
+  color: $ink;
+
+  // Anel de foco claro: o roxo do tema sumiria no fundo escuro
+  --color-focus: #{$brand-300};
+
+  // A foto da luz, maior que a seção: ela deriva devagar sem mostrar a borda.
+  // Só transform, que a placa de vídeo anima sem repintar a página
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -10%;
+    background: url('../assets/bancada.webp') center / cover no-repeat;
+    animation: luz-a-deriva 24s ease-in-out infinite;
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgb(16 14 28 / 92%) 0%,
+      rgb(16 14 28 / 78%) 34%,
+      rgb(16 14 28 / 35%) 62%,
+      rgb(16 14 28 / 55%) 100%
+    );
+    pointer-events: none;
+  }
+
+  // O conteúdo fica por cima da camada escura
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@keyframes luz-a-deriva {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+
+  30% {
+    transform: translate3d(-3%, 2%, 0) rotate(-2deg) scale(1.06);
+  }
+
+  65% {
+    transform: translate3d(2.5%, -2.5%, 0) rotate(1.5deg) scale(1.04);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Abas de categoria
+// ---------------------------------------------------------------------------
+.tabs {
+  display: flex;
+  gap: $space-xs;
+  align-items: center;
+  padding: $space-sm $space-md;
+  overflow-x: auto;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.tab {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: $height-chip;
+  padding: 0 $space-sm;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: $radius-pill;
+  background-color: rgb(255 255 255 / 6%);
+  color: $ink-muted;
+  font-weight: $weight-semibold;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color $motion-fast $ease-out,
+    color $motion-fast $ease-out,
+    border-color $motion-fast $ease-out;
+
+  @include text-small;
+  @include touch-target;
+
+  &:hover {
+    background-color: rgb(255 255 255 / 14%);
+    color: $ink;
+  }
+
+  &[aria-selected='true'] {
+    border-color: $brand-600;
+    background-color: $brand-600;
+    color: $ink;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Texto à esquerda e trilho de pôsteres à direita; empilhados abaixo do desktop
+// ---------------------------------------------------------------------------
+.body {
+  display: grid;
+  gap: $space-md;
+  align-items: center;
+  padding: $space-md $space-sm;
+
+  @include from(desktop) {
+    grid-template-columns: minmax(16rem, 21rem) minmax(0, 1fr);
+    gap: $space-lg;
+    padding: $space-xl $space-md;
+  }
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  @include from(desktop) {
+    padding-left: $space-xs;
+  }
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  height: 1.75rem;
+  padding: 0 0.75rem;
+  border: 1px solid rgb(167 154 235 / 45%);
+  border-radius: $radius-pill;
+  background-color: rgb(150 128 229 / 18%);
+  color: $brand-300;
+  font-size: 0.75rem;
+  font-weight: $weight-bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0.875rem 0 $space-xs;
+  color: $ink;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  font-weight: $weight-bold;
+  letter-spacing: -0.02em;
+
+  @include from(desktop) {
+    font-size: 1.875rem;
+  }
+}
+
+.description {
+  max-width: 34ch;
+  margin-bottom: $space-md;
+  color: $ink-muted;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+// Botão-link: leva para a lista completa, logo abaixo na mesma página
+.explore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: $touch-min;
+  padding: 0 1.375rem;
+  border-radius: $radius-pill;
+  background-color: $brand-600;
+  color: $ink;
+  font-size: 0.9375rem;
+  font-weight: $weight-bold;
+  text-decoration: none;
+  box-shadow: 0 10px 26px rgb(119 82 213 / 40%);
+  transition:
+    background-color $motion-fast $ease-out,
+    transform $motion-fast $ease-out;
+
+  &:hover {
+    background-color: $brand-700;
+    transform: translateY(-1px);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Trilho: rola de lado, encaixando um pôster por vez
+// ---------------------------------------------------------------------------
+.railWrap {
+  position: relative;
+  min-width: 0;
+
+  // Brilho roxo que passeia atrás do trilho: o vidro dos pôsteres acende
+  // quando ele passa por trás
+  &::before {
+    content: '';
+    position: absolute;
+    top: 5%;
+    left: 0;
+    z-index: -1;
+    width: 60%;
+    height: 90%;
+    background: radial-gradient(
+      closest-side,
+      rgb(150 128 229 / 50%),
+      rgb(119 82 213 / 20%) 55%,
+      transparent
+    );
+    animation: brilho-passeando 14s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+}
+
+@keyframes brilho-passeando {
+  from {
+    opacity: 0.5;
+    transform: translateX(-15%) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(80%) scale(1.1);
+  }
+}
+
+.rail {
+  display: flex;
+  gap: $space-sm;
+  margin: 0;
+  // Folga para o pôster subir no hover sem ser cortado
+  padding: 0.5rem 0.25rem 0.875rem;
+  overflow-x: auto;
+  list-style: none;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.item {
+  flex: 0 0 9.5rem;
+  scroll-snap-align: start;
+
+  @include from(desktop) {
+    flex-basis: 11.875rem;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+
+  // O anel contorna o pôster, e não o texto embaixo
+  &:focus-visible {
+    outline: none;
+
+    .poster {
+      @include focus-ring;
+
+      outline-width: 3px;
+      outline-offset: 3px;
+    }
+  }
+
+  &:hover,
+  &:focus-visible {
+    .poster {
+      background-color: rgb(255 255 255 / 5%);
+      transform: translateY(-6px) scale(1.02);
+    }
+
+    .art {
+      transform: scale(1.04);
+    }
+  }
+}
+
+// Vidro fosco, igual ao efeito Glass do Figma no design: o fundo da seção
+// aparece desfocado, a luz vem de cima (-90°) e a borda refrata a luz
+.poster {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: $radius-poster;
+  background:
+    radial-gradient(120% 55% at 50% 0%, rgb(255 255 255 / 18%), transparent 70%),
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / 10%),
+      rgb(255 255 255 / 3%) 55%,
+      rgb(255 255 255 / 6%)
+    );
+  // Refração na borda e um fio de dispersão: rosa de um lado, azul do outro
+  box-shadow:
+    inset 0 0 24px rgb(255 255 255 / 7%),
+    inset 1px 0 0 rgb(255 170 220 / 14%),
+    inset -1px 0 0 rgb(150 210 255 / 14%);
+  backdrop-filter: blur(28px) saturate(160%);
+  transition:
+    transform $motion-base $ease-out,
+    background-color $motion-base $ease-out;
+
+  // Aro de luz: forte no topo, onde bate a luz, e fraco embaixo
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 60%),
+      rgb(255 255 255 / 12%) 45%,
+      rgb(255 255 255 / 22%)
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    pointer-events: none;
+  }
+}
+
+.art {
+  width: 58%;
+  height: auto;
+  color: rgb(255 255 255 / 94%);
+  filter: drop-shadow(0 6px 14px rgb(12 8 28 / 45%));
+  transition: transform $motion-base $ease-out;
+}
+
+// Selos de vidro escuro sobre o pôster: posição em cima, cliques embaixo
+.rank,
+.suggestion,
+.clicks {
+  position: absolute;
+  border-radius: $radius-button;
+  background-color: rgb(16 14 28 / 72%);
+  color: $ink;
+  backdrop-filter: blur(6px);
+}
+
+.rank,
+.suggestion {
+  top: 0.625rem;
+  left: 0.625rem;
+  display: grid;
+  place-items: center;
+  min-width: 1.875rem;
+  height: 1.875rem;
+  padding: 0 $space-xs;
+  font-weight: $weight-bold;
+
+  @include tabular-numbers;
+}
+
+.rank {
+  font-size: 0.8125rem;
+}
+
+.suggestion {
+  font-size: 0.75rem;
+}
+
+.clicks {
+  right: 0.625rem;
+  bottom: 0.625rem;
+  left: 0.625rem;
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  height: 1.875rem;
+  padding: 0 0.625rem;
+  font-size: 0.75rem;
+  font-weight: $weight-bold;
+}
+
+.bar {
+  flex: 1;
+  height: 4px;
+  overflow: hidden;
+  border-radius: $radius-pill;
+  background-color: rgb(255 255 255 / 22%);
+
+  > span {
+    display: block;
+    height: 100%;
+    border-radius: $radius-pill;
+    background-color: $brand-400;
+  }
+}
+
+.clicksCount {
+  @include tabular-numbers;
+}
+
+.name {
+  display: -webkit-box;
+  margin-top: 0.75rem;
+  padding: 0 0.25rem;
+  overflow: hidden;
+  color: $ink;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  font-weight: $weight-bold;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.details {
+  margin-top: 0.25rem;
+  padding: 0 0.25rem;
+  color: $ink-muted;
+  font-size: 0.75rem;
+}
+
+.empty {
+  padding: $space-lg 0;
+  color: $ink-muted;
+}
+
+.skeleton {
+  background-color: rgb(255 255 255 / 8%);
+  animation: pulsar 1.4s ease-in-out infinite;
+}
+
+@keyframes pulsar {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Setas de rolar: só no desktop; no celular e no tablet o dedo rola o trilho
+.nav {
+  position: absolute;
+  top: 38%;
+  z-index: 2;
+  display: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: $radius-pill;
+  background-color: rgb(16 14 28 / 66%);
+  color: $ink;
+  cursor: pointer;
+  transition:
+    background-color $motion-fast $ease-out,
+    opacity $motion-fast $ease-out;
+
+  @include from(desktop) {
+    display: grid;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: $brand-600;
+    background-color: $brand-600;
+  }
+
+  // Na ponta do trilho a seta daquele lado some
+  &:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.navPrevious {
+  left: -0.875rem;
+}
+
+.navNext {
+  right: -0.375rem;
+}
+
+// ---------------------------------------------------------------------------
+// Legenda: de onde vem o ranking
+// ---------------------------------------------------------------------------
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-sm;
+  padding: 0 $space-md $space-md;
+  color: $ink-muted;
+  font-size: 0.75rem;
+
+  b {
+    color: $ink;
+  }
+}

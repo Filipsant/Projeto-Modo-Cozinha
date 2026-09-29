@@ -81,6 +81,7 @@ export const ptBR = {
     previous: 'Receitas anteriores',
     next: 'Próximas receitas',
     suggestion: 'Sugestão',
+    empty: 'Nenhuma receita nesta categoria por enquanto.',
     cardLabel_one: '{{rank}}º lugar: {{name}}, {{count}} clique',
     cardLabel_other: '{{rank}}º lugar: {{name}}, {{count}} cliques',
     cardSuggestionLabel: '{{name}}, sugestão do catálogo',

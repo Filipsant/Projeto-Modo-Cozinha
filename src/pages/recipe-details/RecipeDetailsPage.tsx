@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ArrowLeft, SearchX } from 'lucide-react'
 import { useParams } from 'react-router'
 import { recipeQueries } from '@/entities/recipe'
+import { useTrackRecipeOpen } from '@/features/recipe-clicks'
 import { useTranslation } from '@/shared/i18n'
 import { ButtonLink, EmptyState, ErrorMessage } from '@/shared/ui'
 import { RecipeDetails, RecipeDetailsSkeleton } from '@/widgets/recipe-details'
@@ -10,6 +11,8 @@ export function RecipeDetailsPage() {
   const { t } = useTranslation()
   const { id = '' } = useParams()
   const { data: recipe, isPending, isError, refetch } = useQuery(recipeQueries.detail(id))
+  // Cada receita aberta conta um clique no ranking "Em alta na bancada"
+  useTrackRecipeOpen(recipe?.id)
 
   if (isError) {
     return (

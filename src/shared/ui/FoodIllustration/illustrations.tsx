@@ -14,13 +14,16 @@ export const FOOD_ILLUSTRATIONS = {
       <path d="M6 52h52" />
     </>
   ),
+  // Cabeça de galinha, e não a coxa do design: o osso com duas bolinhas na
+  // ponta ficava com uma forma ambígua no tamanho do pôster
   chicken: (
     <>
-      <path d="M47 11c6.5 3.8 7.5 13.5 1.8 18.8-3.6 3.4-8 3.6-11.4 5.4-3 1.6-4.6 4.2-6.2 7" />
-      <path d="M39 13c-4 1.6-6.6 4.8-8 8.6-1.3 3.5-3 6.3-6 8.6" />
-      <circle cx="22" cy="42" r="8.5" />
-      <circle cx="30" cy="50" r="6.5" />
-      <path d="M27 37.5 40 25" />
+      <path d="M22 54c-1-7.5 1-13.5 4.5-18.5 2-3 2.5-6 2.5-9.5 0-6 4.6-10.5 10.5-10.5S50 20 50 26c0 1.8-.3 3.5-1 5" />
+      <path d="M49 31l7.5 2.8-8.5 3" />
+      <path d="M47.8 36.8c.6 3.8-1.2 7-4.3 7s-4.3-3-3.4-6.2" />
+      <path d="M31.5 17c-2.8-2.2-3-5.8-.6-7.4 1.2 1.7 2.6 2.1 3.6.9-1-3 .9-5.6 3.5-5.2 0 2 1 3 2.6 2.6.4-2.6 3-3.7 5.1-2.3-.8 3-2.4 5.8-4.8 8.2" />
+      <circle cx="41" cy="26.5" r="1.7" />
+      <path d="M16 54h32" />
     </>
   ),
   bowl: (

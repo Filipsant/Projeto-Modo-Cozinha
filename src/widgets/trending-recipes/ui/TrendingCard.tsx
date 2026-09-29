@@ -6,24 +6,6 @@ import { FoodIllustration } from '@/shared/ui'
 import type { TrendingItem } from '../lib/buildTrending'
 import styles from './TrendingRecipes.module.scss'
 
-// Um degradê por família de prato: o trilho fica colorido, e dá para achar as
-// sobremesas ou os peixes de relance. A ilustração branca vai por cima
-const POSTER_COLORS: Record<string, [string, string]> = {
-  Pasta: ['#e8a14b', '#a44a1c'],
-  Beef: ['#c8505a', '#6e1c38'],
-  Lamb: ['#c8505a', '#6e1c38'],
-  Goat: ['#c8505a', '#6e1c38'],
-  Pork: ['#d0707a', '#7f2d4f'],
-  Chicken: ['#e0a35a', '#91531c'],
-  Seafood: ['#3e8fb0', '#1c4a75'],
-  Dessert: ['#d9779f', '#823768'],
-  Vegetarian: ['#5fae7b', '#27644a'],
-  Vegan: ['#5fae7b', '#27644a'],
-  Breakfast: ['#e8b04a', '#a0661a'],
-}
-
-const BRAND_POSTER: [string, string] = ['#9680e5', '#482d85']
-
 interface TrendingCardProps {
   item: TrendingItem
   /** Cliques da primeira colocada: a barra de cada cartão é proporcional a ela. */
@@ -34,7 +16,6 @@ export function TrendingCard({ item, maxClicks }: TrendingCardProps) {
   const { t, i18n } = useTranslation()
   const durationLabel = useDurationLabel()
   const { recipe, clicks, rank } = item
-  const [from, to] = POSTER_COLORS[recipe.category ?? ''] ?? BRAND_POSTER
   const details = [
     recipe.category ? t(`categories.${recipe.category}`, recipe.category) : null,
     durationLabel(recipe.estimatedMinutes),
@@ -51,10 +32,7 @@ export function TrendingCard({ item, maxClicks }: TrendingCardProps) {
             : t('trending.cardSuggestionLabel', { name: recipe.name })
         }
       >
-        <span
-          className={styles.poster}
-          style={{ backgroundImage: `linear-gradient(160deg, ${from}, ${to})` }}
-        >
+        <span className={styles.poster}>
           <FoodIllustration
             name={illustrationFor(recipe)}
             className={styles.art}
